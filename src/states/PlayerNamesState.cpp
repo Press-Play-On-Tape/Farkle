@@ -113,6 +113,11 @@ void PlayerNamesState::update(StateMachine & machine) {
 
 						updatePlayerName(machine);
 
+Serial.print("yyy ");
+Serial.print(gameStats.playerBeingEdited);
+Serial.print(" ");
+Serial.println(gameStats.numberOfPlayers);
+
 						if (gameStats.playerBeingEdited < gameStats.numberOfPlayers)  {
 							
 								gameStats.playerBeingEdited++;
@@ -223,12 +228,12 @@ void PlayerNamesState::setNumberOfPlayers(StateMachine & machine, uint8_t number
 
 	if (gameStats.numberOfPlayers < numberOfPlayers) {
 		
-		gameStats.players[numberOfPlayers - 1].name[0] = numberOfPlayers;
+//		gameStats.players[numberOfPlayers - 1].setIcon(numberOfPlayers);
 
 	}
 	else {
 
-		gameStats.players[numberOfPlayers].name[0] = 0;
+//		gameStats.players[numberOfPlayers].setIcon(0);
 
 	}
 

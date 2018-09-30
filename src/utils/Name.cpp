@@ -89,7 +89,11 @@ void Name::incChar(uint8_t idx) {
       case ASCII_LOWER_Z:
         _chars[idx] = ASCII_SPACE;
         break;
-      
+
+      default:
+        _chars[idx] = ASCII_CAPITAL_A;
+        break;
+        
     }
 
   }
@@ -135,6 +139,10 @@ void Name::decChar(uint8_t idx) {
 
       case ASCII_LOWER_B ... ASCII_LOWER_Z:
         _chars[idx]--;
+        break;
+
+      default:
+        _chars[idx] = ASCII_LOWER_Z;
         break;
       
     }

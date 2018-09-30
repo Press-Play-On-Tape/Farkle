@@ -69,7 +69,7 @@ struct GameStats {
     uint8_t playerBeingEdited = 1;
 
     void resetGame() {
-
+Serial.println("reset");
       numberOfPlayers = 1;
       playerBeingEdited = 1;
 
