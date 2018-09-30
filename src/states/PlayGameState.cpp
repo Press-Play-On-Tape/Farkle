@@ -271,7 +271,7 @@ void PlayGameState::render(StateMachine & machine) {
 	// Render player statistics ..
 
 	ardBitmap.drawCompressed(67, 0, Images::Border_With_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
-	ardBitmap.drawCompressed(68, 1, Images::Icons[gameStats.players[this->currentPlayer].name[0]], WHITE, ALIGN_NONE, MIRROR_NONE);
+	ardBitmap.drawCompressed(68, 1, Images::Icons[gameStats.players[this->currentPlayer].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
 
 	font4x6.setCursor(84, -1);
 	font4x6.print(gameStats.players[this->currentPlayer].name);
@@ -314,7 +314,7 @@ void PlayGameState::render(StateMachine & machine) {
 			if (i != this->currentPlayer) {
 
 				ardBitmap.drawCompressed(x, 37, Images::Border_With_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
-				ardBitmap.drawCompressed(x + 1, 38, Images::Icons[gameStats.players[i].name[0]], WHITE, ALIGN_NONE, MIRROR_NONE);
+				ardBitmap.drawCompressed(x + 1, 38, Images::Icons[gameStats.players[i].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
 				renderScore(machine, gameStats.players[i].score, x + 2, 58);
 				x = x + 21;
 

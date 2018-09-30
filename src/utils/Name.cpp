@@ -49,6 +49,10 @@ void Name::decCharIndex() {
   if (_charIndex > 0) _charIndex--;
 }
 
+uint8_t Name::getIcon() {
+  return static_cast<uint8_t>(_chars[0]);
+}
+
 void Name::incChar(uint8_t idx) {
   
   if (idx == 0) {

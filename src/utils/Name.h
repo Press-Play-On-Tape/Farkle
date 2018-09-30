@@ -30,7 +30,8 @@ class Name {
     void retrieve(uint16_t startingLocation);
     void save(uint16_t startingLocation);
     char* getString();
-
+    uint8_t getIcon();
+    
   private:
    
     uint8_t _charIndex;
