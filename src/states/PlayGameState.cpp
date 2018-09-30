@@ -69,7 +69,7 @@ void PlayGameState::update(StateMachine & machine) {
 
 				// Take 500 points from the player if they roll a Farkle ..
 
-				uint8_t score = gameStats.players[this->currentPlayer].score;
+				int16_t score = gameStats.players[this->currentPlayer].score;
 				gameStats.players[this->currentPlayer].score = score - FARKLE_PENALTY;
 				this->viewState = ViewState::Farkle;
 
@@ -117,7 +117,7 @@ void PlayGameState::update(StateMachine & machine) {
 
 					case 7:
 
-						uint16_t score = this->currentHand + this->currentRoll;
+						int16_t score = this->currentHand + this->currentRoll;
 						gameStats.players[this->currentPlayer].score = gameStats.players[this->currentPlayer].score + score;
 
 						viewState = ViewState::TakeScore;
