@@ -240,7 +240,7 @@ void PlayerNamesState::setNumberOfPlayers(StateMachine & machine, uint8_t number
 	}
 	else {
 
-//		gameStats.players[numberOfPlayers].setIcon(0);
+		gameStats.players[gameStats.numberOfPlayers].setIcon(0);
 
 	}
 
