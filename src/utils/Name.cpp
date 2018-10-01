@@ -9,6 +9,12 @@ Name::Name() {
     _chars[x] = ' ';
   }
 
+  for (uint8_t i = 0; i < 3; i++) {
+    this->iconsInUse[i] = 0;
+  }
+
+  this->iconsIndex = 0;
+
 };
   
 
@@ -49,19 +55,29 @@ void Name::decCharIndex() {
   if (_charIndex > 0) _charIndex--;
 }
 
+uint8_t Name::getIcon() {
+  return static_cast<uint8_t>(_chars[0]);
+}
+
 void Name::incChar(uint8_t idx) {
   
   if (idx == 0) {
 
-    switch (_chars[idx]) {
+    for (int8_t i = _chars[0]; i < _chars[0] + ICON_MAX; i++) {
 
-      case ICON_MAX:
-        _chars[idx] = 1;
-        break;
+      bool found = false;
+      int8_t i2 = (i % ICON_MAX) + 1;
 
-      default:
-        _chars[idx]++;
+      for (uint8_t j = 0; j < 3; j++) {
+
+        if (this->iconsInUse[j] == i2) found = true;
+
+      }
+
+      if (!found) {
+        _chars[0] = i2;
         break;
+      }
 
     }
 
@@ -89,7 +105,11 @@ void Name::incChar(uint8_t idx) {
       case ASCII_LOWER_Z:
         _chars[idx] = ASCII_SPACE;
         break;
-      
+
+      default:
+        _chars[idx] = ASCII_CAPITAL_A;
+        break;
+        
     }
 
   }
@@ -100,15 +120,22 @@ void Name::decChar(uint8_t idx) {
 
   if (idx == 0) {
 
-    switch (_chars[idx]) {
+    for (int8_t i = _chars[0] + ICON_MAX; i > _chars[0]; i--) {
+ 
+      bool found = false;
+      int8_t i2 = (i % ICON_MAX) - 1;
+      if (i2 <= 0) i2 = i2 + ICON_MAX;
 
-      case 1:
-        _chars[idx] = ICON_MAX;
-        break;
+      for (int8_t j = 0; j < 3; j++) {
 
-      default:
-        _chars[idx]--;
+        if (this->iconsInUse[j] == i2) found = true;
+
+      }
+
+      if (!found) {
+        _chars[0] = i2;
         break;
+      }
 
     }
 
@@ -135,6 +162,10 @@ void Name::decChar(uint8_t idx) {
 
       case ASCII_LOWER_B ... ASCII_LOWER_Z:
         _chars[idx]--;
+        break;
+
+      default:
+        _chars[idx] = ASCII_LOWER_Z;
         break;
       
     }
@@ -203,4 +234,50 @@ void Name::save(uint16_t startingLocation) {
 
 char* Name::getString() {
   return _chars;
+}
+
+void Name::clearIconsInUse() {
+
+  for (uint8_t i = 0; i < 3; i++) {
+    this->iconsInUse[i] = 0;
+  }
+
+  this->iconsIndex = 0;
+
+}
+
+void Name::addIconsInUse(uint8_t icon) {
+
+  this->iconsInUse[this->iconsIndex] = icon;
+  this->iconsIndex++;
+
+
+  // Find next. unused icon ..
+
+  if (this->iconsIndex == 3) {
+
+    for (uint8_t i = 1; i <= ICON_MAX; i++) {
+
+      bool found = false;
+
+      for (uint8_t j = 0; j < 3; j++) {
+
+        if (this->iconsInUse[j] == i) {
+
+          found = true;
+          break;
+
+        }
+
+      }
+
+      if (!found) {
+        _chars[0] = i;
+        break;
+      }
+
+    }
+
+  }
+
 }

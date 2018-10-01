@@ -5,7 +5,7 @@
 
 #define _DEBUG
 
-#define NAME_LENGTH 7
+#define NAME_LENGTH 9
 #define NAME_CHARACTER_SPACING 6
 #define NAME_UNDERLINE_WIDTH 3
 
@@ -47,6 +47,14 @@ struct Player {
 
     };
 
+    uint8_t getIcon() {
+      return static_cast<uint8_t>(this->name[0]);
+    }
+
+    void setIcon(uint8_t val) {
+      this->name[0] = static_cast<char>(val);
+    }
+
     char name[NAME_LENGTH + 1];
     int16_t score = 0;
 
@@ -69,14 +77,14 @@ struct GameStats {
     uint8_t playerBeingEdited = 1;
 
     void resetGame() {
-
+Serial.println("reset");
       numberOfPlayers = 1;
       playerBeingEdited = 1;
 
-      player1.name[0] = 1;
-      player2.name[0] = 0;
-      player3.name[0] = 0;
-      player4.name[0] = 0;
+      player1.setIcon(1);
+      player2.setIcon(0);
+      player3.setIcon(0);
+      player4.setIcon(0);
 
     }
 
