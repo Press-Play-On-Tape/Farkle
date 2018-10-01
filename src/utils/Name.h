@@ -25,6 +25,7 @@ class Name {
     void decCharIndex();
     void incChar(uint8_t idx);
     void decChar(uint8_t idx);
+
     void clear();
     void clear(uint16_t startingLocation);
     void retrieve(uint16_t startingLocation);
@@ -33,8 +34,9 @@ class Name {
     uint8_t getIcon();
 
     void clearIconsInUse();
+    void addIconsInUse(uint8_t icon);
+    
 
-        
   private:
    
     uint8_t _charIndex;

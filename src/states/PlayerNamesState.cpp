@@ -215,10 +215,10 @@ void PlayerNamesState::getPlayerName(StateMachine & machine) {
 	this->name.setChars(gameStats.players[gameStats.playerBeingEdited - 1].name);
 	this->name.clearIconsInUse();
 
-	// if (gameStats.playerBeingEdited - 1 != 0) this->name.addIconsInUse(gameStats.players[0].getIcon());
-	// if (gameStats.playerBeingEdited - 1 != 1) this->name.addIconsInUse(gameStats.players[1].getIcon());
-	// if (gameStats.playerBeingEdited - 1 != 2) this->name.addIconsInUse(gameStats.players[2].getIcon());
-	// if (gameStats.playerBeingEdited - 1 != 3) this->name.addIconsInUse(gameStats.players[3].getIcon());
+	if (gameStats.playerBeingEdited - 1 != 0) this->name.addIconsInUse(gameStats.players[0].getIcon());
+	if (gameStats.playerBeingEdited - 1 != 1) this->name.addIconsInUse(gameStats.players[1].getIcon());
+	if (gameStats.playerBeingEdited - 1 != 2) this->name.addIconsInUse(gameStats.players[2].getIcon());
+	if (gameStats.playerBeingEdited - 1 != 3) this->name.addIconsInUse(gameStats.players[3].getIcon());
 
 }
 

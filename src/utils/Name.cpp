@@ -232,3 +232,39 @@ void Name::clearIconsInUse() {
   this->iconsIndex = 0;
 
 }
+
+void Name::addIconsInUse(uint8_t icon) {
+
+  this->iconsInUse[this->iconsIndex] = icon;
+  this->iconsIndex++;
+
+
+  // Find next. unused icon ..
+
+  if (this->iconsIndex == 3) {
+
+    for (uint8_t i = 1; i <= ICON_MAX; i++) {
+
+      bool found = false;
+
+      for (uint8_t j = 0; j < 3; j++) {
+
+        if (this->iconsInUse[j] == i) {
+
+          found = true;
+          break;
+
+        }
+
+      }
+
+      if (!found) {
+        _chars[0] = i;
+        break;
+      }
+
+    }
+
+  }
+
+}
