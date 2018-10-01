@@ -16,6 +16,7 @@ class PlayGameState : public BaseState {
       RollDice,
       SelectDice,
       TakeScore,
+      NextUp,
       Farkle
     };
 
@@ -44,8 +45,6 @@ class PlayGameState : public BaseState {
     uint16_t calculateScore(boolean checkForFarkle);
 
     uint8_t firstSelection();
-    uint8_t prevSelection();
-    uint8_t nextSelection();
     bool allDicePlayed();
     void clearHand();
     void renderScore(StateMachine & machine, int16_t score, uint8_t x, uint8_t y);

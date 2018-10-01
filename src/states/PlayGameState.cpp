@@ -79,8 +79,107 @@ void PlayGameState::update(StateMachine & machine) {
 
 		case ViewState::SelectDice:
 
-			if (justPressed & LEFT_BUTTON) 	 	this->selectedDice = prevSelection(); 
-			if (justPressed & RIGHT_BUTTON) 	this->selectedDice = nextSelection();
+			if (justPressed & LEFT_BUTTON) {
+
+				switch (this->selectedDice) {
+
+					case 1 ... 6:
+						this->selectedDice--;
+						break;
+
+					case 7:
+						if (this->currentRoll > 0) {
+							this->selectedDice--;
+						}
+						break;
+
+					default: break;
+				}
+
+			}
+			
+			if (justPressed & RIGHT_BUTTON) {
+
+				switch (this->selectedDice) {
+
+					case 0 ... 4:
+						this->selectedDice++;
+						break;
+
+					case 5:
+						if (this->currentRoll > 0) {
+							this->selectedDice++;
+						}
+						break;
+
+					case 6:
+						if (this->currentHand + this->currentRoll >= MINIMUM_HAND_SCORE) {
+							this->selectedDice++;
+						}
+						break;
+
+					default: break;
+				}
+				
+			}
+
+			if (justPressed & DOWN_BUTTON) {
+
+				switch (this->selectedDice) {
+
+					case 0 ... 2:
+						this->selectedDice = this->selectedDice + 3;
+						break;
+
+					case 3:
+						if (this->currentRoll > 0) {
+							this->selectedDice = 6;
+						}
+						break;
+
+					case 4:
+						if (this->currentRoll > 0) {
+							this->selectedDice = 6;
+						}
+						else if (this->currentHand + this->currentRoll >= MINIMUM_HAND_SCORE) {
+							this->selectedDice = 7;
+						}
+						break;
+
+					case 5:
+						if (this->currentHand + this->currentRoll >= MINIMUM_HAND_SCORE) {
+							this->selectedDice = 7;
+						}
+						else if (this->currentRoll > 0) {
+							this->selectedDice = 6;
+						}
+						break;
+
+					default: break;
+				}
+
+			}
+
+			if (justPressed & UP_BUTTON) {
+
+				switch (this->selectedDice) {
+
+					case 3 ... 5:
+						this->selectedDice = this->selectedDice - 3;
+						break;
+
+					case 6:
+						this->selectedDice = 3;
+						break;
+
+					case 7:
+						this->selectedDice = 5;
+						break;
+
+					default: break;
+				}
+
+			}
 
 			if (justPressed & A_BUTTON) {
 				
@@ -132,6 +231,8 @@ void PlayGameState::update(StateMachine & machine) {
 
 		case ViewState::TakeScore:
 			
+			if (justPressed > 0) { this->count = (FLASH_FRAME_COUNT * 2); }
+
 			if (this->count < (FLASH_FRAME_COUNT * 2)) {
 				
 				this->count++;
@@ -149,10 +250,18 @@ void PlayGameState::update(StateMachine & machine) {
 				} 
 				else {
 
-					viewState = ViewState::SwapPlayer;
+					viewState = ViewState::NextUp;
 
 				}
 
+			}
+
+			break;
+
+		case ViewState::NextUp:
+			
+			if (justPressed & A_BUTTON) {
+				viewState = ViewState::SwapPlayer;
 			}
 
 			break;
@@ -168,7 +277,7 @@ void PlayGameState::update(StateMachine & machine) {
 				} 
 				else {
 
-					viewState = ViewState::SwapPlayer;
+					viewState = ViewState::NextUp;
 
 				}
 
@@ -225,7 +334,13 @@ void PlayGameState::render(StateMachine & machine) {
 				}
 				else {
 
-						ardBitmap.drawCompressed(x, y, Images::Dice_None, WHITE, ALIGN_NONE, MIRROR_NONE);
+					ardBitmap.drawCompressed(x, y, Images::Dice_None, WHITE, ALIGN_NONE, MIRROR_NONE);
+
+					if (i == this->selectedDice && flash) {
+
+						ardBitmap.drawCompressed(x, y, Images::Dice_None_Highlight, WHITE, ALIGN_NONE, MIRROR_NONE);
+
+					}  
 
 				}
 
@@ -331,6 +446,28 @@ void PlayGameState::render(StateMachine & machine) {
 
 		ardBitmap.drawCompressed(12, 8, Images::Farkle_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
 		ardBitmap.drawCompressed(12, 8, Images::Farkle, WHITE, ALIGN_NONE, MIRROR_NONE);
+
+	}
+
+
+	// Next Up?
+
+	if (this->viewState == ViewState::NextUp) {
+
+		uint8_t nextPlayer = this->currentPlayer + 1;
+
+		if (nextPlayer >= gameStats.numberOfPlayers) {
+				
+			nextPlayer = 0;
+			
+		}
+
+		ardBitmap.drawCompressed(29, 18, Images::NextUp_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
+		ardBitmap.drawCompressed(29, 18, Images::NextUp, WHITE, ALIGN_NONE, MIRROR_NONE);
+
+		ardBitmap.drawCompressed(33, 22, Images::Icons[gameStats.players[nextPlayer].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
+		font4x6.setCursor(48, 33);
+		font4x6.print(gameStats.players[nextPlayer].name);
 
 	}
 
@@ -551,50 +688,6 @@ uint8_t PlayGameState::firstSelection() {
 	}
 
 	return 0;
-
-}
-
-uint8_t PlayGameState::prevSelection() {
-
-	for (int8_t i = this->selectedDice - 1; i >= 0; i--) {
-
-		if (i == 6) {
-
-			if (this->currentRoll > 0) return 6;
-
-		}
-		else  {
-
-			if (this->dice[i] > 0) return i;
-
-		}
-
-	}
-
-	return this->selectedDice;
-
-}
-
-
-uint8_t PlayGameState::nextSelection() {
-
-	for (uint8_t i = this->selectedDice + 1; i < 8; i++) {
-
-		if (i < 6) {
-
-			if (this->dice[i] > 0) return i;
-
-		}
-		else {
-
-				if (i == 6 && this->currentRoll > 0) return 6;
-				if (i == 7 && this->currentRoll + this->currentHand > 0) return 7;
-
-		}
-
-	}
-
-	return this->selectedDice;
 
 }
 

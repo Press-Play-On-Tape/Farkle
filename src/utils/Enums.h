@@ -5,7 +5,7 @@
 
 #define _DEBUG
 
-#define NAME_LENGTH 7
+#define NAME_LENGTH 9
 #define NAME_CHARACTER_SPACING 6
 #define NAME_UNDERLINE_WIDTH 3
 

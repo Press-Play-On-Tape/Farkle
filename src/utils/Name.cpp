@@ -63,15 +63,21 @@ void Name::incChar(uint8_t idx) {
   
   if (idx == 0) {
 
-    switch (_chars[idx]) {
+    for (int8_t i = _chars[0]; i < _chars[0] + ICON_MAX; i++) {
 
-      case ICON_MAX:
-        _chars[idx] = 1;
-        break;
+      bool found = false;
+      int8_t i2 = (i % ICON_MAX) + 1;
 
-      default:
-        _chars[idx]++;
+      for (uint8_t j = 0; j < 3; j++) {
+
+        if (this->iconsInUse[j] == i2) found = true;
+
+      }
+
+      if (!found) {
+        _chars[0] = i2;
         break;
+      }
 
     }
 
@@ -114,15 +120,22 @@ void Name::decChar(uint8_t idx) {
 
   if (idx == 0) {
 
-    switch (_chars[idx]) {
+    for (int8_t i = _chars[0] + ICON_MAX; i > _chars[0]; i--) {
+ 
+      bool found = false;
+      int8_t i2 = (i % ICON_MAX) - 1;
+      if (i2 <= 0) i2 = i2 + ICON_MAX;
 
-      case 1:
-        _chars[idx] = ICON_MAX;
-        break;
+      for (int8_t j = 0; j < 3; j++) {
 
-      default:
-        _chars[idx]--;
+        if (this->iconsInUse[j] == i2) found = true;
+
+      }
+
+      if (!found) {
+        _chars[0] = i2;
         break;
+      }
 
     }
 
