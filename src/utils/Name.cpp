@@ -9,6 +9,12 @@ Name::Name() {
     _chars[x] = ' ';
   }
 
+  for (uint8_t i = 0; i < 3; i++) {
+    this->iconsInUse[i] = 0;
+  }
+
+  this->iconsIndex = 0;
+
 };
   
 
