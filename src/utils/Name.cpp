@@ -216,3 +216,13 @@ void Name::save(uint16_t startingLocation) {
 char* Name::getString() {
   return _chars;
 }
+
+void Name::clearIconsInUse() {
+
+  for (uint8_t i = 0; i < 3; i++) {
+    this->iconsInUse[i] = 0;
+  }
+
+  this->iconsIndex = 0;
+
+}

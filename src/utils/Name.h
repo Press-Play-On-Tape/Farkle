@@ -31,11 +31,16 @@ class Name {
     void save(uint16_t startingLocation);
     char* getString();
     uint8_t getIcon();
-    
+
+    void clearIconsInUse();
+
+        
   private:
    
     uint8_t _charIndex;
     char _chars[NAME_LENGTH];
     uint16_t _eeprom_start;
+    uint8_t iconsInUse[3];
+    uint8_t iconsIndex;
 
 };
