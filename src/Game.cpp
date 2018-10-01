@@ -32,7 +32,7 @@ void Game::setup(void) {
 	arduboy.initRandomSeed();
 	arduboy.setFrameRate(60);
 
-	this->currentState = GameStateType::TitleScreen;//SJH SplashScreen;
+	this->currentState = GameStateType::SplashScreen;
 	this->splashScreenState.activate(*this);
 }
 

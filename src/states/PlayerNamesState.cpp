@@ -172,30 +172,32 @@ void PlayerNamesState::render(StateMachine & machine) {
 
 		case ViewState::EnterName:
 
-			font4x6.setCursor(6, 0);
+			font4x6.setCursor(0, 0);
 			font4x6.print(F("Player~"));
 			font4x6.print(gameStats.playerBeingEdited);
 
-			font4x6.setCursor(6, 11);
-			font4x6.print(F("Icon?"));
+			font4x6.setCursor(0, 16);
+			font4x6.print(F("Icon~~Name"));
+			arduboy.drawPixel(48, 19);
+			arduboy.drawPixel(48, 21);
+			arduboy.drawLine(23, 17, 21, 22);
 
-			ardBitmap.drawCompressed(60, 3, Images::Border_No_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
-			ardBitmap.drawCompressed(61, 4, Images::Icons[static_cast<uint8_t>(name.getChar(0))], WHITE, ALIGN_NONE, MIRROR_NONE);
+			ardBitmap.drawCompressed(53, 11, Images::Border_No_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
+			ardBitmap.drawCompressed(54, 12, Images::Icons[static_cast<uint8_t>(name.getChar(0))], WHITE, ALIGN_NONE, MIRROR_NONE);
 
 			if (flash && name.getCharIndex() == 0) {
-				arduboy.drawFastHLine(62, 20, 15, WHITE);
+				ardBitmap.drawCompressed(58, 5, Images::ArrowUp, WHITE, ALIGN_NONE, MIRROR_NONE);
+				ardBitmap.drawCompressed(58, 31, Images::ArrowDown, WHITE, ALIGN_NONE, MIRROR_NONE);
 			}
 
-			font4x6.setCursor(6, 23);
-			font4x6.print(F("Name?"));
-			arduboy.drawHorizontalDottedLine(60, 107, 31);
+			arduboy.drawHorizontalDottedLine(77, 124, 24);
 
 			for (uint8_t x = 1; x < NAME_LENGTH; x++) {
 
-				font4x6.setCursor(54 + (x * NAME_CHARACTER_SPACING), 23);
+				font4x6.setCursor(71 + (x * NAME_CHARACTER_SPACING), 16);
 
 				if (flash && name.getCharIndex() == x) {
-					arduboy.drawFastHLine(54 + (x * NAME_CHARACTER_SPACING), 31, 4, WHITE);
+					arduboy.drawFastHLine(71 + (x * NAME_CHARACTER_SPACING), 24, 4, WHITE);
 				}
 
 				font4x6.print(name.getChar(x));

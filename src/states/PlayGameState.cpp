@@ -359,6 +359,11 @@ void PlayGameState::render(StateMachine & machine) {
 					}  
 
 				}
+				else {
+
+					ardBitmap.drawCompressed(x, y, Images::Button_Disabled, WHITE, ALIGN_NONE, MIRROR_NONE);
+
+				}
 
 				break;
 
@@ -373,6 +378,11 @@ void PlayGameState::render(StateMachine & machine) {
 						ardBitmap.drawCompressed(x, y, Images::Button_Highlight, BLACK, ALIGN_NONE, MIRROR_NONE);
 
 					}  
+
+				}
+				else {
+
+					ardBitmap.drawCompressed(x, y, Images::Button_Disabled, WHITE, ALIGN_NONE, MIRROR_NONE);
 
 				}
 
@@ -462,12 +472,9 @@ void PlayGameState::render(StateMachine & machine) {
 			
 		}
 
-		ardBitmap.drawCompressed(29, 18, Images::NextUp_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
-		ardBitmap.drawCompressed(29, 18, Images::NextUp, WHITE, ALIGN_NONE, MIRROR_NONE);
-
-		ardBitmap.drawCompressed(33, 22, Images::Icons[gameStats.players[nextPlayer].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
-		font4x6.setCursor(48, 33);
-		font4x6.print(gameStats.players[nextPlayer].name);
+		ardBitmap.drawCompressed(30, 16, Images::NextUp_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
+		ardBitmap.drawCompressed(30, 16, Images::NextUp, WHITE, ALIGN_NONE, MIRROR_NONE);
+		ardBitmap.drawCompressed(74, 24, Images::Icons[gameStats.players[nextPlayer].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
 
 	}
 
