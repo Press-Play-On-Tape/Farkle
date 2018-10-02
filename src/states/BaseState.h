@@ -13,8 +13,8 @@ class BaseState : public GameState<GameContext, GameStateType> {
     Font3x5 font3x5 = Font3x5();
     Font4x6 font4x6 = Font4x6();
 
-	private:
+    void renderScore(StateMachine & machine, int16_t score, uint8_t x, uint8_t y);
 
-  public:
+	private:
 
 };

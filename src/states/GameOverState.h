@@ -10,13 +10,15 @@ class GameOverState : public BaseState {
 
   private:
 
-    uint8_t restart = 0;
+    uint8_t winner = 0;
 
   public:	
   
     void activate(StateMachine & machine) override;
     void update(StateMachine & machine) override;
     void render(StateMachine & machine) override;
+
+    uint8_t getWinner(StateMachine & machine);
 
 };
 

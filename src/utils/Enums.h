@@ -4,6 +4,7 @@
 #include "Utils.h"
 
 #define _DEBUG
+#define SOUND
 
 #define NAME_LENGTH 9
 #define NAME_CHARACTER_SPACING 6
@@ -22,10 +23,11 @@
 #define KEY_REPEAT_DELAY 24
 #define FLASH_FRAME_COUNT 24
 #define ICON_MAX 4
+#define PLAYER_MAX 4
 
 #define FARKLE_PENALTY 500
 #define MINIMUM_HAND_SCORE 300
-#define NUMBER_OF_ROUNDS_PER_GAME 10
+#define NUMBER_OF_ROUNDS_PER_GAME 10//sjh
 
 enum class GameStateType : uint8_t {
 	SplashScreen,
@@ -77,7 +79,7 @@ struct GameStats {
     uint8_t playerBeingEdited = 1;
 
     void resetGame() {
-Serial.println("reset");
+
       numberOfPlayers = 1;
       playerBeingEdited = 1;
 

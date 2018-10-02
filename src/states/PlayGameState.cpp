@@ -300,6 +300,7 @@ void PlayGameState::render(StateMachine & machine) {
 	
 	const bool flash = arduboy.getFrameCountHalf(FLASH_FRAME_COUNT);
 
+	ardBitmap.drawCompressed(59, 0, Images::Divider, WHITE, ALIGN_NONE, MIRROR_NONE);
 
 	for (uint8_t i = 0; i < 8; i++) {
 
@@ -369,7 +370,7 @@ void PlayGameState::render(StateMachine & machine) {
 
 			case 7:
 
-				if (this->currentRoll + this->currentHand >= MINIMUM_HAND_SCORE) {
+				if (this->currentRoll > 0 && this->currentRoll + this->currentHand >= MINIMUM_HAND_SCORE) {
 
 					ardBitmap.drawCompressed(x, y, Images::Take, WHITE, ALIGN_NONE, MIRROR_NONE);
 
@@ -405,17 +406,17 @@ void PlayGameState::render(StateMachine & machine) {
 
 	font3x5.setCursor(89, 10);
 	font3x5.print(F("Roll"));
-	renderScore(machine, this->currentRoll, 113, 10);				
+	BaseState::renderScore(machine, this->currentRoll, 113, 10);				
 					
 	font3x5.setCursor(89, 17);
 	font3x5.print(F("Turn"));
-	renderScore(machine, this->currentHand, 113, 17);				
+	BaseState::renderScore(machine, this->currentHand, 113, 17);				
 
 	if (this->viewState != ViewState::TakeScore || flash) {
 
 		font3x5.setCursor(89, 24);
 		font3x5.print(F("Total"));
-		renderScore(machine, gameStats.players[this->currentPlayer].score, 113, 24);
+		BaseState::renderScore(machine, gameStats.players[this->currentPlayer].score, 113, 24);
 
 	}
 
@@ -440,7 +441,7 @@ void PlayGameState::render(StateMachine & machine) {
 
 				ardBitmap.drawCompressed(x, 37, Images::Border_With_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
 				ardBitmap.drawCompressed(x + 1, 38, Images::Icons[gameStats.players[i].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
-				renderScore(machine, gameStats.players[i].score, x + 2, 58);
+				BaseState::renderScore(machine, gameStats.players[i].score, x + 2, 58);
 				x = x + 21;
 
 			}
@@ -718,21 +719,5 @@ void PlayGameState::clearHand() {
 		this->retainDice[i] = false;
 
 	} 
-
-}
-
-void PlayGameState::renderScore(StateMachine & machine, int16_t score, uint8_t x, uint8_t y) {
-
-	auto & arduboy = machine.getContext().arduboy;
-
-	uint8_t digits[4] = {};
-	extractDigits(digits, static_cast<uint16_t>(absT(score)));
-
-	if (score < 0) { arduboy.drawFastHLine(x - 3, y + 3, 2); }
-
-	for (uint8_t j = 4, x2 = x; j > 0; --j, x2 += 4) {
-		font3x5.setCursor(x2, y);
-		font3x5.print(digits[j - 1]);
-	}
 
 }

@@ -21,7 +21,29 @@
 #include "states/States.h"
 #include "utils/Utils.h"
 
+#ifdef SOUND
+long t;
+uint8_t hpISR = 46;
+
+ISR(TIMER3_COMPA_vect)
+{
+    t++;
+    OCR4A = ((t*(t>>8|t>>9)&hpISR&t>>8))^(t&t>>13|t>>6); // by xpansive
+}
+#endif
+
 void Game::setup(void) {
+
+	#ifdef SOUND
+		// set up Timer 3
+		TCCR3A = 0; // set normal mode (which disconnects the pin)
+		TCCR3B = _BV(WGM32) | _BV(CS31); // CTC mode. Divide by 8 clock prescale
+
+		//set up Timer 4
+		TCCR4A = 0;
+		TCCR4B = _BV(CS40); // 62500Hz
+		OCR4C = 0xFF; // Resolution to 8-bit (TOP=0xFF)
+	#endif
 
 	auto & arduboy = this->context.arduboy;
 

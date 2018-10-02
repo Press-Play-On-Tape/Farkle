@@ -47,7 +47,6 @@ class PlayGameState : public BaseState {
     uint8_t firstSelection();
     bool allDicePlayed();
     void clearHand();
-    void renderScore(StateMachine & machine, int16_t score, uint8_t x, uint8_t y);
 
 };
 

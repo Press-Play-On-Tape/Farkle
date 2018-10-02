@@ -9,7 +9,13 @@ constexpr const static uint8_t UPLOAD_DELAY = 16;
 //
 void TitleScreenState::activate(StateMachine & machine) {
 
-	(void)machine;	
+	auto & gameStats = machine.getContext().gameStats;
+
+	for (uint8_t i = 0; i < PLAYER_MAX; i ++) {
+		gameStats.players[i].score = 0;
+	}
+
+	gameStats.playerBeingEdited = 1;
 
 }
 

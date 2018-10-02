@@ -10,7 +10,12 @@ void PlayerNamesState::activate(StateMachine & machine) {
 	auto & gameStats = machine.getContext().gameStats;
 
 	this->viewState = ViewState::NumberOfPlayers;
-	this->name.setChar(0, 1);
+
+	getPlayerName(machine);
+
+	if (this->name.getIcon() == 0) {
+		this->name.setChar(0, 1);
+	}
 
 }
 
@@ -112,11 +117,6 @@ void PlayerNamesState::update(StateMachine & machine) {
 					if (!allSpaces) {
 
 						updatePlayerName(machine);
-
-Serial.print("yyy ");
-Serial.print(gameStats.playerBeingEdited);
-Serial.print(" ");
-Serial.println(gameStats.numberOfPlayers);
 
 						if (gameStats.playerBeingEdited < gameStats.numberOfPlayers)  {
 							

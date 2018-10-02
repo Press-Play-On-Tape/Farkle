@@ -21,6 +21,12 @@ void SplashScreenState::update(StateMachine & machine) {
 	auto & arduboy = machine.getContext().arduboy;
 	auto justPressed = arduboy.justPressedButtons();
 
+  if (justPressed > 0 && this->counter > 0) {
+
+    this->counter = 124;
+
+  }
+
   if (justPressed > 0 && this->counter == 0) {
 
     this->counter = 1;
@@ -29,6 +35,7 @@ void SplashScreenState::update(StateMachine & machine) {
     OCR3A = 3905; // 128 Hz
 
   }
+
   if (this->counter > 0) {
 
     this->counter++;
