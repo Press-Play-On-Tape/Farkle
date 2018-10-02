@@ -17,7 +17,8 @@ class PlayGameState : public BaseState {
       SelectDice,
       TakeScore,
       NextUp,
-      Farkle
+      Farkle,
+      HotDice
     };
 
     ViewState viewState = ViewState::RollDice;

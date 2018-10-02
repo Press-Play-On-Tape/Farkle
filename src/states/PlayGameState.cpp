@@ -72,6 +72,7 @@ void PlayGameState::update(StateMachine & machine) {
 				int16_t score = gameStats.players[this->currentPlayer].score;
 				gameStats.players[this->currentPlayer].score = score - FARKLE_PENALTY;
 				this->viewState = ViewState::Farkle;
+				this->count = 0;
 
 			}
 
@@ -206,11 +207,21 @@ void PlayGameState::update(StateMachine & machine) {
 
 						// If all the dice have been played, roll them all again ..
 
-						if (allDicePlayed()) clearHand();
+						if (allDicePlayed()) {
+
+							clearHand();
+							this->viewState = ViewState::HotDice;	
+							this->count = 0;				
+
+						}
+						else {
+
+							this->viewState = ViewState::RollDice;					
+
+						}
 
 						this->currentHand = this->currentHand + this->currentRoll;
 						this->currentRoll = 0;
-						this->viewState = ViewState::RollDice;					
 
 						break;
 
@@ -250,7 +261,12 @@ void PlayGameState::update(StateMachine & machine) {
 				} 
 				else {
 
-					viewState = ViewState::NextUp;
+					if (gameStats.numberOfPlayers > 1) {
+						viewState = ViewState::NextUp;
+					}
+					else {
+						viewState = ViewState::SwapPlayer;
+					}
 
 				}
 
@@ -268,6 +284,8 @@ void PlayGameState::update(StateMachine & machine) {
 
 		case ViewState::Farkle:
 
+			if (this->count < FARKLE_DELAY) this->count++;
+
 			if (justPressed & A_BUTTON) {
 
 				if ((this->currentPlayer == gameStats.numberOfPlayers - 1) && (this->round == NUMBER_OF_ROUNDS_PER_GAME)) {
@@ -277,9 +295,30 @@ void PlayGameState::update(StateMachine & machine) {
 				} 
 				else {
 
-					viewState = ViewState::NextUp;
+					if (gameStats.numberOfPlayers > 1) {
+						viewState = ViewState::NextUp;
+					}
+					else {
+						viewState = ViewState::SwapPlayer;
+					}
 
 				}
+
+			}
+			break;
+
+		case ViewState::HotDice:
+		
+			if (justPressed > 0) { this->count = (FLASH_FRAME_COUNT * 2); }
+
+			if (this->count < (FLASH_FRAME_COUNT * 2)) {
+				
+				this->count++;
+
+			}
+			else {
+
+				viewState = ViewState::RollDice;
 
 			}
 			break;
@@ -453,10 +492,20 @@ void PlayGameState::render(StateMachine & machine) {
 
 	// Farkle?
 
-	if (this->viewState == ViewState::Farkle) {
+	if (this->viewState == ViewState::Farkle && this->count == FARKLE_DELAY) {
 
 		ardBitmap.drawCompressed(12, 8, Images::Farkle_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
 		ardBitmap.drawCompressed(12, 8, Images::Farkle, WHITE, ALIGN_NONE, MIRROR_NONE);
+
+	}
+
+
+	// Hot Dice?
+
+	if (this->viewState == ViewState::HotDice) {
+
+		ardBitmap.drawCompressed(12, 8, Images::HotDice_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
+		ardBitmap.drawCompressed(12, 8, Images::HotDice, WHITE, ALIGN_NONE, MIRROR_NONE);
 
 	}
 
