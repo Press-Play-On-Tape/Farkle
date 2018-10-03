@@ -56,7 +56,7 @@ void Game::setup(void) {
 
 	arduboy.setRGBled(0, 0, 0);
 
-	this->currentState = GameStateType::SplashScreen; //HighScore; //SJH SplashScreen; 
+	this->currentState = GameStateType::HighScore; //HighScore; //SJH SplashScreen; 
 	this->splashScreenState.activate(*this);
 	
 }

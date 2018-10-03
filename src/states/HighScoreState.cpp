@@ -58,10 +58,17 @@ void HighScoreState::render(StateMachine & machine) {
 
 	SpritesB::drawOverwrite(27, 0, Images::HighScore, 0);
 
-	SpritesB::drawOverwrite(-3, this->yLeft, Images::Title_Dice_Vert, 0);
-	SpritesB::drawOverwrite(-3, this->yLeft + 96, Images::Title_Dice_Vert, 0);
-	SpritesB::drawOverwrite(102, this->yRight, Images::Title_Dice_Vert_Mirror, 0);
-	SpritesB::drawOverwrite(102, this->yRight + 96, Images::Title_Dice_Vert_Mirror, 0);
+	SpritesB::drawOverwrite(-4, this->yLeft, Images::Title_Dice_Vert, 0);
+	SpritesB::drawOverwrite(-4, this->yLeft + 96, Images::Title_Dice_Vert, 0);
+	SpritesB::drawOverwrite(103, this->yRight, Images::Title_Dice_Vert_Mirror, 0);
+	SpritesB::drawOverwrite(103, this->yRight + 96, Images::Title_Dice_Vert_Mirror, 0);
+
+	font3x5.setHeight(7);
+	font3x5.setCursor(37, 42);
+	font3x5.print(F("ABCDABCD  0000\n"));
+	font3x5.print(F("ABCDABCD  0000\n"));
+	font3x5.print(F("ABCDABCD  0000\n"));
+	font3x5.setHeight(8);
 
 }
 
