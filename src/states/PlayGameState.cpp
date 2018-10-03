@@ -11,6 +11,7 @@ const uint8_t dicePositionY[] PROGMEM = { 0, 0, 0, 20, 20, 20, 42, 42 };
 //
 void PlayGameState::activate(StateMachine & machine) {
 
+	auto & arduboy = machine.getContext().arduboy;
 	auto & gameStats = machine.getContext().gameStats;
 
 	this->viewState = ViewState::SwapPlayer;
@@ -209,7 +210,6 @@ void PlayGameState::update(StateMachine & machine) {
 
 						if (allDicePlayed()) {
 
-							clearHand();
 							this->viewState = ViewState::HotDice;	
 							this->count = 0;				
 
@@ -318,6 +318,7 @@ void PlayGameState::update(StateMachine & machine) {
 			}
 			else {
 
+				clearHand();
 				viewState = ViewState::RollDice;
 
 			}
@@ -335,11 +336,12 @@ void PlayGameState::render(StateMachine & machine) {
 
 	auto & arduboy = machine.getContext().arduboy;
 	auto & gameStats = machine.getContext().gameStats;
-	auto & ardBitmap = machine.getContext().ardBitmap;
 	
 	const bool flash = arduboy.getFrameCountHalf(FLASH_FRAME_COUNT);
 
-	ardBitmap.drawCompressed(59, 0, Images::Divider, WHITE, ALIGN_NONE, MIRROR_NONE);
+	arduboy.drawHorizontalDottedLine(60, 64, 0);
+	arduboy.drawVerticalDottedLine(0, 64, 62);
+	arduboy.drawHorizontalDottedLine(60, 64, 62);
 
 	for (uint8_t i = 0; i < 8; i++) {
 
@@ -354,31 +356,31 @@ void PlayGameState::render(StateMachine & machine) {
 
 					if (this->retainDice[i]) {
 				
-						ardBitmap.drawCompressed(x, y, Images::Dice_Solid, WHITE, ALIGN_NONE, MIRROR_NONE);
-						ardBitmap.drawCompressed(x + 4, y + 4, Images::Dice_Faces[this->dice[i] - 1], BLACK, ALIGN_NONE, MIRROR_NONE);
+						arduboy.drawCompressed(x, y, Images::Dice_Solid, WHITE);
+						arduboy.drawCompressed(x + 4, y + 4, Images::Dice_Faces[this->dice[i] - 1], BLACK);
 
 					}
 					else {
 				
-						ardBitmap.drawCompressed(x, y, Images::Dice_Hollow, WHITE, ALIGN_NONE, MIRROR_NONE);
-						ardBitmap.drawCompressed(x + 4, y + 4, Images::Dice_Faces[this->dice[i] -1 ], WHITE, ALIGN_NONE, MIRROR_NONE);
+						arduboy.drawCompressed(x, y, Images::Dice_Hollow, WHITE);
+						arduboy.drawCompressed(x + 4, y + 4, Images::Dice_Faces[this->dice[i] - 1], WHITE);
 
 					}
 
 					if (i == this->selectedDice && flash) {
 
-						ardBitmap.drawCompressed(x, y, Images::Dice_Highlight, BLACK, ALIGN_NONE, MIRROR_NONE);
+						arduboy.drawCompressed(x, y, Images::Dice_Highlight, BLACK);
 
 					}  
 
 				}
 				else {
 
-					ardBitmap.drawCompressed(x, y, Images::Dice_None, WHITE, ALIGN_NONE, MIRROR_NONE);
+					arduboy.drawCompressed(x, y, Images::Dice_None, WHITE);
 
 					if (i == this->selectedDice && flash) {
 
-						ardBitmap.drawCompressed(x, y, Images::Dice_None_Highlight, WHITE, ALIGN_NONE, MIRROR_NONE);
+						arduboy.drawCompressed(x, y, Images::Dice_None_Highlight, WHITE);
 
 					}  
 
@@ -390,18 +392,18 @@ void PlayGameState::render(StateMachine & machine) {
 
 				if (this->currentRoll > 0) {
 
-					ardBitmap.drawCompressed(x, y, Images::Roll, WHITE, ALIGN_NONE, MIRROR_NONE);
+					arduboy.drawCompressed(x, y, Images::Roll, WHITE);
 
 					if (i == this->selectedDice && flash) {
 
-						ardBitmap.drawCompressed(x, y, Images::Button_Highlight, BLACK, ALIGN_NONE, MIRROR_NONE);
+						arduboy.drawCompressed(x, y, Images::Button_Highlight, BLACK);
 
 					}  
 
 				}
 				else {
 
-					ardBitmap.drawCompressed(x, y, Images::Button_Disabled, WHITE, ALIGN_NONE, MIRROR_NONE);
+					arduboy.drawCompressed(x, y, Images::Button_Disabled, WHITE);
 
 				}
 
@@ -411,18 +413,18 @@ void PlayGameState::render(StateMachine & machine) {
 
 				if (this->currentRoll > 0 && this->currentRoll + this->currentHand >= MINIMUM_HAND_SCORE) {
 
-					ardBitmap.drawCompressed(x, y, Images::Take, WHITE, ALIGN_NONE, MIRROR_NONE);
+					arduboy.drawCompressed(x, y, Images::Take, WHITE);
 
 					if (i == this->selectedDice && flash) {
 
-						ardBitmap.drawCompressed(x, y, Images::Button_Highlight, BLACK, ALIGN_NONE, MIRROR_NONE);
+						arduboy.drawCompressed(x, y, Images::Button_Highlight, BLACK);
 
 					}  
 
 				}
 				else {
 
-					ardBitmap.drawCompressed(x, y, Images::Button_Disabled, WHITE, ALIGN_NONE, MIRROR_NONE);
+					arduboy.drawCompressed(x, y, Images::Button_Disabled, WHITE);
 
 				}
 
@@ -435,8 +437,8 @@ void PlayGameState::render(StateMachine & machine) {
 
 	// Render player statistics ..
 
-	ardBitmap.drawCompressed(67, 0, Images::Border_With_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
-	ardBitmap.drawCompressed(68, 1, Images::Icons[gameStats.players[this->currentPlayer].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
+	arduboy.drawCompressed(67, 0, Images::Border_With_Shadow, WHITE);
+	arduboy.drawCompressed(68, 1, Images::Icons[gameStats.players[this->currentPlayer].getIcon()], WHITE);
 
 	font4x6.setCursor(84, -1);
 	font4x6.print(gameStats.players[this->currentPlayer].name);
@@ -462,7 +464,7 @@ void PlayGameState::render(StateMachine & machine) {
 
 	// Render round ..
 
-	font3x5.setCursor(8, 58);
+	font3x5.setCursor(8, 57);
 	font3x5.print(F("Turn~"));
 	font3x5.print(this->round);
 	font3x5.print(F("~of~"));
@@ -478,9 +480,9 @@ void PlayGameState::render(StateMachine & machine) {
 		
 			if (i != this->currentPlayer) {
 
-				ardBitmap.drawCompressed(x, 37, Images::Border_With_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
-				ardBitmap.drawCompressed(x + 1, 38, Images::Icons[gameStats.players[i].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
-				BaseState::renderScore(machine, gameStats.players[i].score, x + 2, 58);
+				arduboy.drawCompressed(x, 36, Images::Border_With_Shadow, WHITE);
+				arduboy.drawCompressed(x + 1, 37, Images::Icons[gameStats.players[i].getIcon()]);
+				BaseState::renderScore(machine, gameStats.players[i].score, x + 2, 57);
 				x = x + 21;
 
 			}
@@ -494,18 +496,26 @@ void PlayGameState::render(StateMachine & machine) {
 
 	if (this->viewState == ViewState::Farkle && this->count == FARKLE_DELAY) {
 
-		ardBitmap.drawCompressed(12, 8, Images::Farkle_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
-		ardBitmap.drawCompressed(12, 8, Images::Farkle, WHITE, ALIGN_NONE, MIRROR_NONE);
+		SpritesB::drawExternalMask(12, 8, Images::Farkle, Images::Farkle_Mask, 0, 0);
+		arduboy.setRGBled(RED_LED, (flash ? 32 : 0));
 
 	}
 
 
 	// Hot Dice?
 
-	if (this->viewState == ViewState::HotDice) {
+	else if (this->viewState == ViewState::HotDice) {
 
-		ardBitmap.drawCompressed(12, 8, Images::HotDice_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
-		ardBitmap.drawCompressed(12, 8, Images::HotDice, WHITE, ALIGN_NONE, MIRROR_NONE);
+		arduboy.drawCompressed(7, 8, Images::HotDice_Mask, BLACK);
+		arduboy.drawCompressed(7, 8, Images::HotDice, WHITE);
+
+		arduboy.setRGBled(GREEN_LED, (flash ? 32 : 0));
+
+	}
+	
+	else {
+
+		arduboy.setRGBled(0, 0, 0);
 
 	}
 
@@ -522,9 +532,9 @@ void PlayGameState::render(StateMachine & machine) {
 			
 		}
 
-		ardBitmap.drawCompressed(30, 16, Images::NextUp_Mask, BLACK, ALIGN_NONE, MIRROR_NONE);
-		ardBitmap.drawCompressed(30, 16, Images::NextUp, WHITE, ALIGN_NONE, MIRROR_NONE);
-		ardBitmap.drawCompressed(74, 24, Images::Icons[gameStats.players[nextPlayer].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
+		arduboy.drawCompressed(30, 16, Images::NextUp_Mask, BLACK);
+		arduboy.drawCompressed(30, 16, Images::NextUp, WHITE);
+		arduboy.drawCompressed(74, 24, Images::Icons[gameStats.players[nextPlayer].getIcon()], WHITE);
 
 	}
 

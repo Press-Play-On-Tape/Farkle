@@ -14,7 +14,10 @@ class BaseState : public GameState<GameContext, GameStateType> {
     Font4x6 font4x6 = Font4x6();
 
     void renderScore(StateMachine & machine, int16_t score, uint8_t x, uint8_t y);
+    void renderMovingDice(StateMachine & machine, uint8_t y);
 
 	private:
 
+    int8_t xPos = -96;
+    
 };

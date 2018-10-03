@@ -60,9 +60,9 @@ void TitleScreenState::update(StateMachine & machine) {
 //
 void TitleScreenState::render(StateMachine & machine) {
 
-	auto & ardBitmap = machine.getContext().ardBitmap;
-	
-	ardBitmap.drawCompressed(12, 0, Images::Farkle, WHITE, ALIGN_NONE, MIRROR_NONE);
-	ardBitmap.drawCompressed(0, 35, Images::Title_Dice, WHITE, ALIGN_NONE, MIRROR_NONE);
+	auto & arduboy = machine.getContext().arduboy;
+
+	SpritesB::drawOverwrite(12, 0, Images::Farkle, 0);
+	renderMovingDice(machine, 35);
 
 }

@@ -33,6 +33,7 @@ class Game : public GameStateMachine<GameContext, GameStateType> {
     PlayerNamesState playerNamesState;
     PlayGameState playGameState;
     GameOverState gameOverState;
+    HighScoreState highScoreState;
     
   public:
 

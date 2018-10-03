@@ -54,8 +54,11 @@ void Game::setup(void) {
 	arduboy.initRandomSeed();
 	arduboy.setFrameRate(60);
 
-	this->currentState = GameStateType::SplashScreen;
+	arduboy.setRGBled(0, 0, 0);
+
+	this->currentState = GameStateType::SplashScreen; //HighScore; //SJH SplashScreen; 
 	this->splashScreenState.activate(*this);
+	
 }
 
 void Game::loop(void) {
@@ -122,7 +125,18 @@ void Game::loop(void) {
 			this->gameOverState.update(*this);
 			this->gameOverState.render(*this);
 			break;
-			
+
+		case GameStateType::HighScore: 
+
+			if (currentState != savedCurrentState) {
+				this->context.gameState = this->currentState;
+				this->highScoreState.activate(*this);
+				this->savedCurrentState = this->currentState;
+			}
+			this->highScoreState.update(*this);
+			this->highScoreState.render(*this);
+			break;		
+
 		default: break;	
 
 	}

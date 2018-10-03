@@ -149,13 +149,11 @@ void PlayerNamesState::update(StateMachine & machine) {
 void PlayerNamesState::render(StateMachine & machine) {
 
 	auto & arduboy = machine.getContext().arduboy;
-	auto & ardBitmap = machine.getContext().ardBitmap;
 	auto & gameStats = machine.getContext().gameStats;
 	
-	const bool flash = arduboy.getFrameCountHalf(FLASH_FRAME_COUNT);
+	const bool flash = arduboy.getFrameCountHalf(FLASH_FRAME_COUNT_2);
 
-
-	ardBitmap.drawCompressed(0, 35, Images::Title_Dice, WHITE, ALIGN_NONE, MIRROR_NONE);
+	renderMovingDice(machine, 35);
 
 	switch (this->viewState) {
 
@@ -182,12 +180,12 @@ void PlayerNamesState::render(StateMachine & machine) {
 			arduboy.drawPixel(48, 21);
 			arduboy.drawLine(23, 17, 21, 22);
 
-			ardBitmap.drawCompressed(53, 11, Images::Border_No_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
-			ardBitmap.drawCompressed(54, 12, Images::Icons[static_cast<uint8_t>(name.getChar(0))], WHITE, ALIGN_NONE, MIRROR_NONE);
+			arduboy.drawCompressed(53, 11, Images::Border_No_Shadow, WHITE);
+			arduboy.drawCompressed(54, 12, Images::Icons[static_cast<uint8_t>(name.getChar(0))], WHITE);
 
 			if (flash && name.getCharIndex() == 0) {
-				ardBitmap.drawCompressed(58, 5, Images::ArrowUp, WHITE, ALIGN_NONE, MIRROR_NONE);
-				ardBitmap.drawCompressed(58, 31, Images::ArrowDown, WHITE, ALIGN_NONE, MIRROR_NONE);
+				arduboy.drawCompressed(58, 5, Images::ArrowUp, WHITE);
+				arduboy.drawCompressed(58, 31, Images::ArrowDown, WHITE);
 			}
 
 			arduboy.drawHorizontalDottedLine(77, 124, 24);

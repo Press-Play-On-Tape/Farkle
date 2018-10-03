@@ -22,3 +22,23 @@ void BaseState::renderScore(StateMachine & machine, int16_t score, uint8_t x, ui
 	}
 
 }
+
+void BaseState::renderMovingDice(StateMachine & machine, uint8_t y) {
+
+	auto & arduboy = machine.getContext().arduboy;
+
+
+	// Adjust the dice positions ..
+
+	if (arduboy.everyXFrames(2)) {
+
+		this->xPos++;
+		if (this->xPos == 0) xPos = -96;
+
+	}
+
+	SpritesB::drawExternalMask(xPos, y, Images::Title_Dice, Images::Title_Dice_Mask, 0, 0);
+	SpritesB::drawExternalMask(xPos + 96, y, Images::Title_Dice, Images::Title_Dice_Mask, 0, 0);
+	SpritesB::drawExternalMask(xPos + 192, y, Images::Title_Dice, Images::Title_Dice_Mask, 0, 0);
+
+}

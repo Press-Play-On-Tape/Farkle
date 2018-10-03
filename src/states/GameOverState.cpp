@@ -21,11 +21,17 @@ void GameOverState::update(StateMachine & machine) {
   auto justPressed = arduboy.justPressedButtons();
   auto pressed = arduboy.pressedButtons();
 
+
+	this->r++; if (this->r > 48) this->r = 0;
+	this->g++; if (this->g > 48) this->g = 0;
+	this->b++; if (this->b > 48) this->b = 0;
+
 	
 	// Handle other input ..
 
 	if (justPressed & A_BUTTON) {
-		machine.changeState(GameStateType::TitleScreen); 
+		arduboy.setRGBled(0, 0, 0);
+		machine.changeState(GameStateType::HighScore); 
 	}
 
 }
@@ -36,15 +42,14 @@ void GameOverState::update(StateMachine & machine) {
 //
 void GameOverState::render(StateMachine & machine) {
 
-	auto & ardBitmap = machine.getContext().ardBitmap;
 	auto & arduboy = machine.getContext().arduboy;
 	auto & gameStats = machine.getContext().gameStats;
+	
+	SpritesB::drawOverwrite(8, 0, Images::Winner, 0);
+	arduboy.drawCompressed(32, 29, Images::Border_No_Shadow, WHITE);
+	arduboy.drawCompressed(33, 30, Images::Icons[gameStats.players[this->winner].getIcon()], WHITE);
 
-	ardBitmap.drawCompressed(0, 45, Images::Title_Dice, WHITE, ALIGN_NONE, MIRROR_NONE);
-	ardBitmap.drawCompressed(8, 0, Images::Winner, WHITE, ALIGN_NONE, MIRROR_NONE);
-
-	ardBitmap.drawCompressed(32, 29, Images::Border_No_Shadow, WHITE, ALIGN_NONE, MIRROR_NONE);
-	ardBitmap.drawCompressed(33, 30, Images::Icons[gameStats.players[this->winner].getIcon()], WHITE, ALIGN_NONE, MIRROR_NONE);
+	renderMovingDice(machine, 45);
 
 	font4x6.setCursor(49, 29);
 	font4x6.print(gameStats.players[this->winner].name);
@@ -52,6 +57,9 @@ void GameOverState::render(StateMachine & machine) {
 	font3x5.setCursor(54, 39);
   font3x5.print(F("Total"));
 	BaseState::renderScore(machine, gameStats.players[this->winner].score, 78, 39);
+
+
+	arduboy.setRGBled(absT(this->r - 32), absT(this->g - 32), absT(this->b - 32));
 
 }
 

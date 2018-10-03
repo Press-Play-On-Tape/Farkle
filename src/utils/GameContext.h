@@ -20,8 +20,7 @@
 
 #include "Arduboy2Ext.h"
 #include "Enums.h"
-#include "../ardBitmap/ArdBitmap.h"
-  
+
 class GameContext {
 
   public:
@@ -34,8 +33,6 @@ class GameContext {
   public:
 
     Arduboy2Ext arduboy;
-    ArdBitmap<WIDTH, HEIGHT> ardBitmap;
-
     GameStats gameStats;
 
 };

@@ -69,23 +69,22 @@ void SplashScreenState::update(StateMachine & machine) {
 //
 void SplashScreenState::render(StateMachine & machine) {
 
-	auto & ardBitmap = machine.getContext().ardBitmap;
 	auto & arduboy = machine.getContext().arduboy;
 
-  ardBitmap.drawCompressed(47, 17, Images::Ppot_Buttons, WHITE, ALIGN_NONE, MIRROR_NONE);
-  ardBitmap.drawCompressed(43, 26, Images::Ppot_ButtonUp, WHITE, ALIGN_NONE, MIRROR_NONE);
-  ardBitmap.drawCompressed(73, 26, Images::Ppot_ButtonUp, WHITE, ALIGN_NONE, MIRROR_NONE);
+  arduboy.drawCompressed(47, 17, Images::Ppot_Buttons, WHITE);
+  arduboy.drawCompressed(43, 26, Images::Ppot_ButtonUp, WHITE);
+  arduboy.drawCompressed(73, 26, Images::Ppot_ButtonUp, WHITE);
 
   if (this->counter == 0) {
 
-    ardBitmap.drawCompressed(58, 26, Images::Ppot_ButtonUp, WHITE, ALIGN_NONE, MIRROR_NONE);
-    ardBitmap.drawCompressed(26, 46, Images::Ppot_Caption, WHITE, ALIGN_NONE, MIRROR_NONE);
+    arduboy.drawCompressed(58, 26, Images::Ppot_ButtonUp, WHITE);
+    arduboy.drawCompressed(26, 46, Images::Ppot_Caption, WHITE);
 
   }
   else {
 
-    ardBitmap.drawCompressed(58, 26, Images::Ppot_ButtonDown, WHITE, ALIGN_NONE, MIRROR_NONE);
-    ardBitmap.drawCompressed(44, 46, Images::Ppot_Loading, WHITE, ALIGN_NONE, MIRROR_NONE);
+    arduboy.drawCompressed(58, 26, Images::Ppot_ButtonDown, WHITE);
+    arduboy.drawCompressed(44, 46, Images::Ppot_Loading, WHITE);
 
     uint8_t i = (this->counter / 15) % 4;
 

@@ -21,10 +21,11 @@
 #define ASCII_LOWER_Z 122
 
 #define KEY_REPEAT_DELAY 24
-#define FLASH_FRAME_COUNT 24
+#define FLASH_FRAME_COUNT 20
+#define FLASH_FRAME_COUNT_2 56
 #define ICON_MAX 6
 #define PLAYER_MAX 4
-#define FARKLE_DELAY 20
+#define FARKLE_DELAY 14
 
 #define FARKLE_PENALTY 500
 #define MINIMUM_HAND_SCORE 300
@@ -35,7 +36,8 @@ enum class GameStateType : uint8_t {
 	TitleScreen,
   PlayerNames,
   PlayGame,
-  GameOver
+  GameOver,
+  HighScore
 };
 
 struct Player {

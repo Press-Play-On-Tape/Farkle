@@ -6,14 +6,12 @@
 #include "../images/Images.h"
 #include "BaseState.h"
 
-class GameOverState : public BaseState {
+class HighScoreState : public BaseState {
 
   private:
 
-    uint8_t winner = 0;
-    uint8_t r = 0;
-    uint8_t g = 12;
-    uint8_t b = 24;
+    int8_t yLeft = 0;
+    int8_t yRight = 64;
     
   public:	
   
@@ -21,7 +19,6 @@ class GameOverState : public BaseState {
     void update(StateMachine & machine) override;
     void render(StateMachine & machine) override;
 
-    uint8_t getWinner(StateMachine & machine);
 
 };
 
