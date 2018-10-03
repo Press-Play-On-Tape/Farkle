@@ -23,7 +23,7 @@
 #define KEY_REPEAT_DELAY 24
 #define FLASH_FRAME_COUNT 20
 #define FLASH_FRAME_COUNT_2 56
-#define ICON_MAX 6
+#define ICON_MAX 8
 #define PLAYER_MAX 4
 #define FARKLE_DELAY 14
 
