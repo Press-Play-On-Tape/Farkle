@@ -1,5 +1,6 @@
 #include "TitleScreenState.h"
 #include "../images/Images.h"
+#include "../utils/EEPROM_Utils.h"
 
 constexpr const static uint8_t UPLOAD_DELAY = 16;
 
@@ -12,11 +13,20 @@ void TitleScreenState::activate(StateMachine & machine) {
 	auto & gameStats = machine.getContext().gameStats;
 
 	for (uint8_t i = 0; i < PLAYER_MAX; i ++) {
-		gameStats.players[i].score = 0;
+		gameStats.players[i]->score = 0;
 	}
 
 	gameStats.playerBeingEdited = 1;
 
+  EEPROM_Utils::getName(*gameStats.player1.name, EEPROM_PLAYER1);
+  EEPROM_Utils::getName(*gameStats.player2.name, EEPROM_PLAYER2);
+  EEPROM_Utils::getName(*gameStats.player3.name, EEPROM_PLAYER3);
+  EEPROM_Utils::getName(*gameStats.player4.name, EEPROM_PLAYER4);
+// for (uint8_t i = 0; i< NAME_LENGTH + 1; i++) {
+// 	Serial.print((uint8_t)gameStats.player1.name[i]);
+// 	Serial.print(" ");
+// }
+// 	Serial.println(" ");
 }
 
 

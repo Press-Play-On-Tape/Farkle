@@ -47,16 +47,16 @@ void GameOverState::render(StateMachine & machine) {
 	
 	SpritesB::drawOverwrite(8, 0, Images::Winner, 0);
 	arduboy.drawCompressed(32, 29, Images::Border_No_Shadow, WHITE);
-	arduboy.drawCompressed(33, 30, Images::Icons[gameStats.players[this->winner].getIcon()], WHITE);
+	arduboy.drawCompressed(33, 30, Images::Icons[gameStats.players[this->winner]->getIcon()], WHITE);
 
 	renderMovingDice(machine, 45);
 
 	font4x6.setCursor(49, 29);
-	font4x6.print(gameStats.players[this->winner].name);
+	font4x6.print(gameStats.players[this->winner]->name);
 	arduboy.drawHorizontalDottedLine(54, 92, 38);
 	font3x5.setCursor(54, 39);
   font3x5.print(F("Total"));
-	BaseState::renderScore(machine, gameStats.players[this->winner].score, 78, 39);
+	BaseState::renderScore(machine, gameStats.players[this->winner]->score, 78, 39);
 
 
 	arduboy.setRGBled(absT(this->r - 32), absT(this->g - 32), absT(this->b - 32));
@@ -73,7 +73,7 @@ uint8_t GameOverState::getWinner(StateMachine & machine) {
 
 	for (uint8_t i = 1; i < gameStats.numberOfPlayers; i++) {
 
-		if (gameStats.players[i].score > gameStats.players[winnerIdx].score) {
+		if (gameStats.players[i]->score > gameStats.players[winnerIdx]->score) {
 			winnerIdx = i;
 		}
 

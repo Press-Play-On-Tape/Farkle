@@ -10,7 +10,6 @@ void PlayerNamesState::activate(StateMachine & machine) {
 	auto & gameStats = machine.getContext().gameStats;
 
 	this->viewState = ViewState::NumberOfPlayers;
-
 	getPlayerName(machine);
 
 	if (this->name.getIcon() == 0) {
@@ -212,20 +211,21 @@ void PlayerNamesState::getPlayerName(StateMachine & machine) {
 			
 	auto & gameStats = machine.getContext().gameStats;
 
-	this->name.setChars(gameStats.players[gameStats.playerBeingEdited - 1].name);
+	this->name.setChars(gameStats.players[gameStats.playerBeingEdited - 1]->name);
+	this->name.setStartLoc(EEPROM_PLAYER1 + (10 * (gameStats.playerBeingEdited - 1)));
 	this->name.clearIconsInUse();
 
-	if (gameStats.playerBeingEdited - 1 != 0) this->name.addIconsInUse(gameStats.players[0].getIcon());
-	if (gameStats.playerBeingEdited - 1 != 1) this->name.addIconsInUse(gameStats.players[1].getIcon());
-	if (gameStats.playerBeingEdited - 1 != 2) this->name.addIconsInUse(gameStats.players[2].getIcon());
-	if (gameStats.playerBeingEdited - 1 != 3) this->name.addIconsInUse(gameStats.players[3].getIcon());
+	if (gameStats.playerBeingEdited - 1 != 0) this->name.addIconsInUse(gameStats.players[0]->getIcon());
+	if (gameStats.playerBeingEdited - 1 != 1) this->name.addIconsInUse(gameStats.players[1]->getIcon());
+	if (gameStats.playerBeingEdited - 1 != 2) this->name.addIconsInUse(gameStats.players[2]->getIcon());
+	if (gameStats.playerBeingEdited - 1 != 3) this->name.addIconsInUse(gameStats.players[3]->getIcon());
 
 }
 
 void PlayerNamesState::updatePlayerName(StateMachine & machine) {
 		
 	auto & gameStats = machine.getContext().gameStats;
-	strcpy(gameStats.players[gameStats.playerBeingEdited - 1].name, this->name.getString());
+	strcpy(gameStats.players[gameStats.playerBeingEdited - 1]->name, this->name.getString());
 
 }
 
@@ -235,7 +235,7 @@ void PlayerNamesState::setNumberOfPlayers(StateMachine & machine, uint8_t number
 
 	if (gameStats.numberOfPlayers >= numberOfPlayers) {
 
-		gameStats.players[gameStats.numberOfPlayers].setIcon(0);
+		gameStats.players[gameStats.numberOfPlayers]->setIcon(0);
 
 	}
 

@@ -65,6 +65,8 @@ struct Player {
         name[x] = ' ';
       }
 
+      name[NAME_LENGTH - 1] = 0;
+
     };
 
     uint8_t getIcon() {
@@ -74,6 +76,22 @@ struct Player {
     void setIcon(uint8_t val) {
       this->name[0] = static_cast<char>(val);
     }
+
+//     char getName() {
+
+//       char ret[NAME_LENGTH - 1];
+
+//       for (uint8_t i = 1; i < NAME_LENGTH - 1; i++) {
+//         ret[i - 1] = name[i];
+//       }
+//       ret[NAME_LENGTH - 1] = 0;
+
+// Serial.print(name);
+// Serial.print("|");
+// Serial.println(ret);
+//       return ret;
+
+//     }
 
     char name[NAME_LENGTH + 1];
     int16_t score = 0;
@@ -91,7 +109,7 @@ struct GameStats {
     Player player3;
     Player player4;
 
-    Player players[4] = { player1, player2, player3, player4 };
+    Player * players[4] = { &player1, &player2, &player3, &player4 };
     
     uint8_t numberOfPlayers = 1;
     uint8_t playerBeingEdited = 1;

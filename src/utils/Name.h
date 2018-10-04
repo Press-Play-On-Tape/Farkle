@@ -35,13 +35,14 @@ class Name {
 
     void clearIconsInUse();
     void addIconsInUse(uint8_t icon);
-    
+    void setStartLoc(uint16_t eeprom_start_loc);
+
 
   private:
    
     uint8_t _charIndex;
     char _chars[NAME_LENGTH];
-    uint16_t _eeprom_start;
+    uint16_t eeprom_start_loc;
     uint8_t iconsInUse[3];
     uint8_t iconsIndex;
 

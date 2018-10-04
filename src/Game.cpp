@@ -47,6 +47,7 @@ void Game::setup(void) {
 	#endif
 
 	auto & arduboy = this->context.arduboy;
+	auto & gameStats = this->context.gameStats;
 
 	arduboy.boot();
 	arduboy.flashlight();
@@ -59,7 +60,12 @@ void Game::setup(void) {
 
   EEPROM_Utils::initEEPROM(false);
 
-	this->currentState = GameStateType::HighScore; //HighScore; //SJH SplashScreen; 
+  EEPROM_Utils::getName(gameStats.player1.name, EEPROM_PLAYER1);
+  EEPROM_Utils::getName(gameStats.player2.name, EEPROM_PLAYER2);
+  EEPROM_Utils::getName(gameStats.player3.name, EEPROM_PLAYER3);
+  EEPROM_Utils::getName(gameStats.player4.name, EEPROM_PLAYER4);
+
+	this->currentState = GameStateType::SplashScreen; //HighScore; //SJH SplashScreen; 
 	this->splashScreenState.activate(*this);
 	
 }
