@@ -43,6 +43,9 @@ void Name::setChars(char val[NAME_LENGTH]) {
   memcpy(_chars, val, NAME_LENGTH);
 }
 
+void Name::setStartLoc(uint16_t eeprom_start_loc) {
+  this->eeprom_start_loc = eeprom_start_loc;
+}
 
 //--------------------------------------------------------------------------------------------------------------------------
 // Methods ..
@@ -114,6 +117,8 @@ void Name::incChar(uint8_t idx) {
 
   }
 
+  save(this->eeprom_start_loc);
+
 }
 
 void Name::decChar(uint8_t idx) {
@@ -171,6 +176,8 @@ void Name::decChar(uint8_t idx) {
     }
 
   }
+
+  save(this->eeprom_start_loc);
 
 }
 

@@ -20,6 +20,7 @@
 
 #include "states/States.h"
 #include "utils/Utils.h"
+#include "utils/EEPROM_Utils.h"
 
 #ifdef SOUND
 long t;
@@ -46,6 +47,7 @@ void Game::setup(void) {
 	#endif
 
 	auto & arduboy = this->context.arduboy;
+	auto & gameStats = this->context.gameStats;
 
 	arduboy.boot();
 	arduboy.flashlight();
@@ -56,7 +58,14 @@ void Game::setup(void) {
 
 	arduboy.setRGBled(0, 0, 0);
 
-	this->currentState = GameStateType::HighScore; //HighScore; //SJH SplashScreen; 
+  EEPROM_Utils::initEEPROM(false);
+
+  EEPROM_Utils::getName(gameStats.player1.name, EEPROM_PLAYER1);
+  EEPROM_Utils::getName(gameStats.player2.name, EEPROM_PLAYER2);
+  EEPROM_Utils::getName(gameStats.player3.name, EEPROM_PLAYER3);
+  EEPROM_Utils::getName(gameStats.player4.name, EEPROM_PLAYER4);
+
+	this->currentState = GameStateType::SplashScreen; //HighScore; //SJH SplashScreen; 
 	this->splashScreenState.activate(*this);
 	
 }

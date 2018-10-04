@@ -28,7 +28,7 @@ void HighScoreState::update(StateMachine & machine) {
 
 	// Adjust the dice positions ..
 
-	if (arduboy.everyXFrames(2)) {
+	if (arduboy.everyXFrames(3)) {
 
 		this->yLeft++;
 		if (this->yLeft == 0) yLeft = -96;
