@@ -20,6 +20,7 @@
 
 #include "states/States.h"
 #include "utils/Utils.h"
+#include "utils/EEPROM_Utils.h"
 
 #ifdef SOUND
 long t;
@@ -55,6 +56,8 @@ void Game::setup(void) {
 	arduboy.setFrameRate(60);
 
 	arduboy.setRGBled(0, 0, 0);
+
+  EEPROM_Utils::initEEPROM(false);
 
 	this->currentState = GameStateType::HighScore; //HighScore; //SJH SplashScreen; 
 	this->splashScreenState.activate(*this);

@@ -31,6 +31,21 @@
 #define MINIMUM_HAND_SCORE 300
 #define NUMBER_OF_ROUNDS_PER_GAME 10//sjh
 
+#define EEPROM_START                  100
+#define EEPROM_START_C1               101
+#define EEPROM_START_C2               102
+#define EEPROM_PLAYER1                103
+#define EEPROM_PLAYER2                113
+#define EEPROM_PLAYER3                123
+#define EEPROM_PLAYER4                133
+#define EEPROM_HS_NAME_1              143
+#define EEPROM_HS_NAME_2              153
+#define EEPROM_HS_NAME_3              163
+#define EEPROM_HS_SCORE_1             173
+#define EEPROM_HS_SCORE_2             175
+#define EEPROM_HS_SCORE_3             177
+#define EEPROM_END                    179
+
 enum class GameStateType : uint8_t {
 	SplashScreen,
 	TitleScreen,
