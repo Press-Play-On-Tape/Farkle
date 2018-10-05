@@ -469,13 +469,10 @@ void PlayGameState::render(StateMachine & machine) {
 	arduboy.drawCompressed(67, 0, Images::Border_With_Shadow, WHITE);
 	arduboy.drawCompressed(68, 1, Images::Icons[gameStats.players[this->currentPlayer]->getIcon()], WHITE);
 
-	font4x6.setCursor(84, -1);//sjh84
-	font4x6.print(gameStats.players[this->currentPlayer]->name);
+	font4x6.setCursor(64, -1);//sjh 84
+  BaseState::printName4x6(machine, this->currentPlayer);
 
-// for (uint8_t i = 0; i< NAME_LENGTH + 1; i++) {
-// 	Serial.print((uint8_t)gameStats.players[this->currentPlayer]->name[i]);
-// 	Serial.print(" ");
-// }
+
 // 	Serial.println(" ");
 	arduboy.drawHorizontalDottedLine(89, 128, 8);
 

@@ -37,7 +37,6 @@ class Name {
     void addIconsInUse(uint8_t icon);
     void setStartLoc(uint16_t eeprom_start_loc);
 
-
   private:
    
     uint8_t _charIndex;

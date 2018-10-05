@@ -29,7 +29,7 @@ void EEPROM_Utils::initEEPROM(bool forceClear) {
 
     }
 
-    for (uint8_t x = EEPROM_PLAYER1 + 1; x < EEPROM_PLAYER2; x++) {
+    for (uint8_t x = EEPROM_PLAYER1 + 1; x < EEPROM_PLAYER2 - 1; x++) {
 
       EEPROM.update(x, 32);
       EEPROM.update(x + 10, 32);
@@ -45,10 +45,11 @@ void EEPROM_Utils::initEEPROM(bool forceClear) {
 
 }
 
+
 /* -----------------------------------------------------------------------------
  *   Get name ..
  */
-void EEPROM_Utils::getName(uint8_t *name, uint8_t startLoc) {
+void EEPROM_Utils::getName(char *name, uint8_t startLoc) {
 
   uint8_t chars[NAME_LENGTH + 1];
 
@@ -58,11 +59,69 @@ void EEPROM_Utils::getName(uint8_t *name, uint8_t startLoc) {
 
   }
 
-  chars[NAME_LENGTH + 1] = 0;
+  chars[NAME_LENGTH] = 0;
 
-  memcpy(name, &chars, NAME_LENGTH);
+  memcpy(name, &chars, NAME_LENGTH + 1);
 
 }
+
+
+/* -----------------------------------------------------------------------------
+ *   Get name ..
+ */
+uint16_t EEPROM_Utils::getHighScore(uint8_t startLoc) {
+
+  uint16_t score = 0;
+  EEPROM.get(startLoc, score);
+
+  return score;
+
+}
+
+
+static uint8_t EEPROM_Utils::saveScore(char *name, uint16_t score) {
+
+  uint16_t scores[3];
+  uint8_t idx = 255;
+
+  for (uint8_t i = 0; i < 3; i++) {
+
+    scores[i] = getHighScore(EEPROM_HS_SCORE_1 + (i*2));
+
+    if (score > scores[i]) {
+
+      idx = i;
+      break;
+
+    }
+
+  }
+
+  // New High Score ..
+  if (idx < 255) {
+
+    for (uint8_t i = 2; i > idx; i--) {
+
+      for (uint8_t j = 0; j < NAME_LENGTH + 1; j++) {
+
+        uint8_t x = EEPROM.read(EEPROM_HS_NAME_1 + ((i - 1) * 10) + j);
+        EEPROM.update(EEPROM_HS_NAME_1 + (i * 10) + j, x);
+
+      }
+
+      uint16_t score = 0;
+      EEPROM.get(EEPROM_HS_SCORE_1 + ((i -1) * 2), score);
+      EEPROM.put(EEPROM_HS_SCORE_1 + (i * 2), score);
+
+    }
+
+  }
+
+  return idx;
+
+}
+
+
 
 // /* -----------------------------------------------------------------------------
 //  *   Get slot details. 

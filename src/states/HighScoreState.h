@@ -12,7 +12,15 @@ class HighScoreState : public BaseState {
 
     int8_t yLeft = 0;
     int8_t yRight = 64;
-    
+
+    char player1[NAME_LENGTH + 1];
+    char player2[NAME_LENGTH + 1];
+    char player3[NAME_LENGTH + 1];
+
+    uint16_t score1;
+    uint16_t score2;
+    uint16_t score3;
+
   public:	
   
     void activate(StateMachine & machine) override;

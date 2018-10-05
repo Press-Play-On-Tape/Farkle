@@ -51,8 +51,8 @@ void GameOverState::render(StateMachine & machine) {
 
 	renderMovingDice(machine, 45);
 
-	font4x6.setCursor(49, 29);
-	font4x6.print(gameStats.players[this->winner]->name);
+	font4x6.setCursor(49, 19);
+	BaseState::printName3x5(machine, this->winner);
 	arduboy.drawHorizontalDottedLine(54, 92, 38);
 	font3x5.setCursor(54, 39);
   font3x5.print(F("Total"));
@@ -63,22 +63,3 @@ void GameOverState::render(StateMachine & machine) {
 
 }
 
-
-
-uint8_t GameOverState::getWinner(StateMachine & machine) {
-
-	auto & gameStats = machine.getContext().gameStats;
-
-	uint8_t winnerIdx = 0;
-
-	for (uint8_t i = 1; i < gameStats.numberOfPlayers; i++) {
-
-		if (gameStats.players[i]->score > gameStats.players[winnerIdx]->score) {
-			winnerIdx = i;
-		}
-
-	}
-
-	return winnerIdx;
-
-}

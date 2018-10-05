@@ -15,6 +15,10 @@ class BaseState : public GameState<GameContext, GameStateType> {
 
     void renderScore(StateMachine & machine, int16_t score, uint8_t x, uint8_t y);
     void renderMovingDice(StateMachine & machine, uint8_t y);
+    uint8_t getWinner(StateMachine & machine);
+    void printName3x5(StateMachine & machine, uint8_t idx);
+    void printName4x6(StateMachine & machine, uint8_t idx);
+
 
 	private:
 
