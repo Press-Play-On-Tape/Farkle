@@ -556,8 +556,8 @@ void PlayGameState::render(StateMachine & machine) {
 
 		else if (this->viewState == ViewState::HotDice) {
 
-			arduboy.drawCompressed(7, 11, Images::HotDice_Mask, BLACK);
-			arduboy.drawCompressed(7, 11, Images::HotDice, WHITE);
+			// arduboy.drawCompressed(7, 11, Images::HotDice_Mask, BLACK);
+			// arduboy.drawCompressed(7, 11, Images::HotDice, WHITE);
 
 			arduboy.setRGBled(GREEN_LED, (flash ? 32 : 0));
 
@@ -808,7 +808,8 @@ uint8_t PlayGameState::firstSelection() {
 
 	for (int8_t i = 0; i < 6; i++) {
 
-		if (this->currentRoll > 0) return i;
+		//if (this->currentRoll > 0) return i;
+		if (this->dice[i] > 0) return i;
 
 	}
 

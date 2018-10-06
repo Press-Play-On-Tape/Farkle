@@ -10,6 +10,10 @@
  *   it resets the settings ..
  */
 
+const char chars1[8] = { 'F', 'i', 'l', 'm', 'o', 't', 'e', ' ' };
+const char chars2[8] = { 'V', 'a', 'm', 'p', 'i', 'r', 'i', 'c' };
+const char chars3[8] = { 'H', 'e', 'c', 't', 'o', 'r', ' ', ' ' };
+
 const uint8_t letter1 = 'F'; 
 const uint8_t letter2 = 'A'; 
 
@@ -29,17 +33,26 @@ void EEPROM_Utils::initEEPROM(bool forceClear) {
 
     }
 
-    for (uint8_t x = EEPROM_PLAYER1 + 1; x < EEPROM_PLAYER2 - 1; x++) {
+    for (uint8_t x = EEPROM_PLAYER1 + 1, y = 0; x < EEPROM_PLAYER2 - 1; x++, y++) {
 
       EEPROM.update(x, 32);
       EEPROM.update(x + 10, 32);
       EEPROM.update(x + 20, 32);
       EEPROM.update(x + 30, 32);
-      EEPROM.update(x + 40, 32);
-      EEPROM.update(x + 50, 32);
-      EEPROM.update(x + 60, 32);
+
+      EEPROM.update(x + 39, chars1[y]);
+      Serial.println(chars1[y]);
+      EEPROM.update(x + 49, chars2[y]);
+      EEPROM.update(x + 59, chars3[y]);
 
     }
+
+    int16_t score = 150;
+    EEPROM.put(EEPROM_HS_SCORE_1, score);
+    score = 100;
+    EEPROM.put(EEPROM_HS_SCORE_1 + 2, score);
+    score = 50;
+    EEPROM.put(EEPROM_HS_SCORE_1 + 4, score);
 
   }
 
