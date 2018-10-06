@@ -1,0 +1,1 @@
+<img src="/distributable/banner.png" data-canonical-src="/distributable/banner.png" width="700" height="714" />
