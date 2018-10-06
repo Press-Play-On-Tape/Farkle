@@ -18,7 +18,8 @@ class PlayGameState : public BaseState {
       TakeScore,
       NextUp,
       Farkle,
-      HotDice
+      HotDice,
+      ScoreSheet
     };
 
     ViewState viewState = ViewState::RollDice;
@@ -28,6 +29,7 @@ class PlayGameState : public BaseState {
     uint8_t dice[6];
     uint8_t round;
     uint8_t count;
+    uint8_t scroll = 0;
 
     uint16_t currentRoll = 0;
 		uint16_t currentHand = 0;

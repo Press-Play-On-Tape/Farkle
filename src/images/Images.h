@@ -4,3 +4,4 @@
 #include "Play.h"
 #include "Splash.h"
 #include "Winners.h"
+#include "ScoreSheet.h"

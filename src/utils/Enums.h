@@ -29,7 +29,7 @@
 
 #define FARKLE_PENALTY 500
 #define MINIMUM_HAND_SCORE 300
-#define NUMBER_OF_ROUNDS_PER_GAME 1//sjh
+#define NUMBER_OF_ROUNDS_PER_GAME 10//sjh
 #define NO_WINNER 255
 
 #define EEPROM_START                  100
@@ -77,22 +77,6 @@ struct Player {
     void setIcon(uint8_t val) {
       this->name[0] = static_cast<char>(val);
     }
-
-//     char getName() {
-
-//       char ret[NAME_LENGTH - 1];
-
-//       for (uint8_t i = 1; i < NAME_LENGTH - 1; i++) {
-//         ret[i - 1] = name[i];
-//       }
-//       ret[NAME_LENGTH - 1] = 0;
-
-// Serial.print(name);
-// Serial.print("|");
-// Serial.println(ret);
-//       return ret;
-
-//     }
 
     char name[NAME_LENGTH + 1];
     int16_t score = 0;
