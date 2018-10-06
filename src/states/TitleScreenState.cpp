@@ -22,11 +22,11 @@ void TitleScreenState::activate(StateMachine & machine) {
   EEPROM_Utils::getName(*gameStats.player2.name, EEPROM_PLAYER2);
   EEPROM_Utils::getName(*gameStats.player3.name, EEPROM_PLAYER3);
   EEPROM_Utils::getName(*gameStats.player4.name, EEPROM_PLAYER4);
-// for (uint8_t i = 0; i< NAME_LENGTH + 1; i++) {
-// 	Serial.print((uint8_t)gameStats.player1.name[i]);
-// 	Serial.print(" ");
-// }
-// 	Serial.println(" ");
+for (uint8_t i = 0; i< NAME_LENGTH + 1; i++) {
+	Serial.print((uint8_t)gameStats.player1.name[i]);
+	Serial.print(" ");
+}
+	Serial.println(" ");
 }
 
 

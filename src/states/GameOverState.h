@@ -21,7 +21,5 @@ class GameOverState : public BaseState {
     void update(StateMachine & machine) override;
     void render(StateMachine & machine) override;
 
-    uint8_t getWinner(StateMachine & machine);
-
 };
 

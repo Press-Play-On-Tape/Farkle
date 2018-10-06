@@ -10,10 +10,9 @@ class EEPROM_Utils {
     EEPROM_Utils(){};
         
     static void initEEPROM(bool forceClear);
-    static void EEPROM_Utils::getName(uint8_t *name, uint8_t startLoc);
-    // static Slot getSlot(uint8_t x);
-    // static uint8_t saveScore(uint16_t score);
-    // static void writeChars(uint8_t slotIndex, HighScore &highScore);
+    static void getName(char *name, uint8_t startLoc);
+    static int16_t getHighScore(uint8_t startLoc);
+    static uint8_t saveScore(char *name, int16_t score);
 
 };
 

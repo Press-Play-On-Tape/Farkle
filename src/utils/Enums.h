@@ -29,7 +29,8 @@
 
 #define FARKLE_PENALTY 500
 #define MINIMUM_HAND_SCORE 300
-#define NUMBER_OF_ROUNDS_PER_GAME 10//sjh
+#define NUMBER_OF_ROUNDS_PER_GAME 1//sjh
+#define NO_WINNER 255
 
 #define EEPROM_START                  100
 #define EEPROM_START_C1               101

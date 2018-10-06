@@ -29,7 +29,7 @@ void EEPROM_Utils::initEEPROM(bool forceClear) {
 
     }
 
-    for (uint8_t x = EEPROM_PLAYER1 + 1; x < EEPROM_PLAYER2; x++) {
+    for (uint8_t x = EEPROM_PLAYER1 + 1; x < EEPROM_PLAYER2 - 1; x++) {
 
       EEPROM.update(x, 32);
       EEPROM.update(x + 10, 32);
@@ -45,10 +45,11 @@ void EEPROM_Utils::initEEPROM(bool forceClear) {
 
 }
 
+
 /* -----------------------------------------------------------------------------
  *   Get name ..
  */
-void EEPROM_Utils::getName(uint8_t *name, uint8_t startLoc) {
+void EEPROM_Utils::getName(char *name, uint8_t startLoc) {
 
   uint8_t chars[NAME_LENGTH + 1];
 
@@ -58,86 +59,77 @@ void EEPROM_Utils::getName(uint8_t *name, uint8_t startLoc) {
 
   }
 
-  chars[NAME_LENGTH + 1] = 0;
+  chars[NAME_LENGTH] = 0;
 
-  memcpy(name, &chars, NAME_LENGTH);
+  memcpy(name, &chars, NAME_LENGTH + 1);
 
 }
 
-// /* -----------------------------------------------------------------------------
-//  *   Get slot details. 
-//  */
-// Slot EEPROM_Utils::getSlot(uint8_t x) {
 
-//   Slot slot;
+/* -----------------------------------------------------------------------------
+ *   Get name ..
+ */
+int16_t EEPROM_Utils::getHighScore(uint8_t startLoc) {
 
+  int16_t score = 0;
+  EEPROM.get(startLoc, score);
 
-//   slot.setChar0(EEPROM.read(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * x)));
-//   slot.setChar1(EEPROM.read(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * x) + 1));
-//   slot.setChar2(EEPROM.read(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * x) + 2));
+  return score;
 
-//   uint16_t score = 0;
-//   EEPROM.get(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * x) + 3, score);
-//   slot.setScore(score);
+}
 
 
-//     return slot;
+static uint8_t EEPROM_Utils::saveScore(char *name, int16_t score) {
 
-// }
+  int16_t scores[3];
+  uint8_t idx = NO_WINNER;
 
+  for (uint8_t i = 0; i < 3; i++) {
 
-// /* -----------------------------------------------------------------------------
-//  *   Save score and return index.  255 not good enough! 
-//  */
-// uint8_t EEPROM_Utils::saveScore(uint16_t score) {
+    scores[i] = getHighScore(EEPROM_HS_SCORE_1 + (i*2));
 
-//   uint8_t idx = DO_NOT_EDIT_SLOT;
+    if (score > scores[i]) {
 
-//   for (uint8_t x = 0; x < MAX_NUMBER_OF_SCORES; x++) {
+      idx = i;
+      break;
 
-//     Slot slot = getSlot(x);
+    }
 
-//     if (slot.getScore() < score) {
-
-//       idx = x;
-//       break;
-
-//     }
-
-//   }
-
-//   if (idx < DO_NOT_EDIT_SLOT) {
-
-//     for (uint8_t x = MAX_NUMBER_OF_SCORES - 1; x > idx; x--) {
-
-//       Slot slot = getSlot(x - 1);
-
-//       EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * x), slot.getChar0());
-//       EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * x) + 1, slot.getChar1());
-//       EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * x) + 2, slot.getChar2());
-//       EEPROM.put(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * x) + 3, slot.getScore());
-
-//     }
-
-//     EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * idx), 0);
-//     EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * idx) + 1, 0);
-//     EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * idx) + 2, 0);
-//     EEPROM.put(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * idx) + 3, score);
-
-//   }
-
-//   return idx;
-
-// }
+  }
 
 
-// /* -----------------------------------------------------------------------------
-//  *   Save characters in the nominated slot index. 
-//  */
-// void EEPROM_Utils::writeChars(uint8_t slotIndex, HighScore &highScore) {
+  // New High Score ..
 
-//     EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * slotIndex), highScore.getChar(0));
-//     EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * slotIndex) + 1, highScore.getChar(1));
-//     EEPROM.update(EEPROM_TOP_START + (EEPROM_ENTRY_SIZE * slotIndex) + 2, highScore.getChar(2));
+  if (idx < NO_WINNER) {
 
-// }
+    for (uint8_t i = 2; i > idx; i--) {
+
+      for (uint8_t j = 0; j < NAME_LENGTH + 1; j++) {
+
+        uint8_t x = EEPROM.read(EEPROM_HS_NAME_1 + ((i - 1) * 10) + j);
+        EEPROM.update(EEPROM_HS_NAME_1 + (i * 10) + j, x);
+
+      }
+
+      int16_t score = 0;
+      EEPROM.get(EEPROM_HS_SCORE_1 + ((i -1) * 2), score);
+      EEPROM.put(EEPROM_HS_SCORE_1 + (i * 2), score);
+
+    }
+
+
+    // Write out new name and score ..
+
+    for (uint8_t j = 1; j < NAME_LENGTH; j++) {
+
+      EEPROM.update(EEPROM_HS_NAME_1 + (idx * 10) + j - 1, name[j]);
+
+    }
+
+    EEPROM.put(EEPROM_HS_SCORE_1 + (idx * 2), score);
+
+  }
+
+  return idx;
+
+}
