@@ -469,7 +469,7 @@ void PlayGameState::render(StateMachine & machine) {
 	arduboy.drawCompressed(67, 0, Images::Border_With_Shadow, WHITE);
 	arduboy.drawCompressed(68, 1, Images::Icons[gameStats.players[this->currentPlayer]->getIcon()], WHITE);
 
-	font4x6.setCursor(64, -1);//sjh 84
+	font4x6.setCursor(89, -1);//sjh 84
   BaseState::printName4x6(machine, this->currentPlayer);
 
 
@@ -512,7 +512,14 @@ void PlayGameState::render(StateMachine & machine) {
 			if (i != this->currentPlayer) {
 
 				arduboy.drawCompressed(x, 36, Images::Border_With_Shadow, WHITE);
-				arduboy.drawCompressed(x + 1, 37, Images::Icons[gameStats.players[i]->getIcon()]);
+
+				if (i < gameStats.numberOfPlayers) {
+					arduboy.drawCompressed(x + 1, 37, Images::Icons[gameStats.players[i]->getIcon()]);
+				}
+				else {
+					arduboy.drawCompressed(x + 1, 37, Images::Icons[0]);
+				}
+
 				BaseState::renderScore(machine, gameStats.players[i]->score, x + 2, 57);
 				x = x + 21;
 

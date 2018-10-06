@@ -26,13 +26,10 @@ class GameContext {
   public:
 
     GameStateType gameState;
-    GameContext();
-  
-    void resetGame();
-
-  public:
-
     Arduboy2Ext arduboy;
     GameStats gameStats;
+
+    GameContext();
+    void resetGame();
 
 };

@@ -49,10 +49,10 @@ void GameOverState::render(StateMachine & machine) {
 	arduboy.drawCompressed(32, 29, Images::Border_No_Shadow, WHITE);
 	arduboy.drawCompressed(33, 30, Images::Icons[gameStats.players[this->winner]->getIcon()], WHITE);
 
-	renderMovingDice(machine, 45);
+	renderMovingDice(machine, 47);
 
-	font4x6.setCursor(49, 19);
-	BaseState::printName3x5(machine, this->winner);
+	font4x6.setCursor(54, 30);
+	BaseState::printName4x6(machine, this->winner);
 	arduboy.drawHorizontalDottedLine(54, 92, 38);
 	font3x5.setCursor(54, 39);
   font3x5.print(F("Total"));
