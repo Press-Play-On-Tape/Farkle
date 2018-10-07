@@ -232,11 +232,7 @@ void PlayGameState::update(StateMachine & machine) {
 							this->viewState = ViewState::HotDice;	
 							this->count = 0;			
 
-							this->fireWorks_X[0] = random(0, 128);	
-							this->fireWorks_Y[0] = random(0, 64);	
-							this->fireWorks_count[0] = 0;	
-
-							for (uint8_t x = 1; x < NUMBER_OF_FIREWORKS; x++) {
+							for (uint8_t x = 0; x < NUMBER_OF_FIREWORKS; x++) {
 
 								this->fireWorks_X[x] = 200;	
 								this->fireWorks_Y[x] = 0;	
@@ -349,7 +345,7 @@ void PlayGameState::update(StateMachine & machine) {
 
 					this->fireWorks_count[x]++;
 
-					if (this->fireWorks_count[x] >= 11) {
+					if (this->fireWorks_count[x] >= 10) {
 						this->fireWorks_count[x] = 0;
 						this->fireWorks_X[x] = random(0, 128);	
 						this->fireWorks_Y[x] = random(0, 64);	
