@@ -5,3 +5,4 @@
 #include "Splash.h"
 #include "Winners.h"
 #include "ScoreSheet.h"
+#include "FireWorks.h"

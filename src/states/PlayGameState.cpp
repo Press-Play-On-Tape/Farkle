@@ -230,7 +230,19 @@ void PlayGameState::update(StateMachine & machine) {
 						if (allDicePlayed()) {
 
 							this->viewState = ViewState::HotDice;	
-							this->count = 0;				
+							this->count = 0;			
+
+							this->fireWorks_X[0] = random(0, 128);	
+							this->fireWorks_Y[0] = random(0, 64);	
+							this->fireWorks_count[0] = 0;	
+
+							for (uint8_t x = 1; x < NUMBER_OF_FIREWORKS; x++) {
+
+								this->fireWorks_X[x] = 200;	
+								this->fireWorks_Y[x] = 0;	
+								this->fireWorks_count[x] = (x * 2);	
+
+							}
 
 						}
 						else {
@@ -331,11 +343,19 @@ void PlayGameState::update(StateMachine & machine) {
 
 		case ViewState::HotDice:
 		
-			if (justPressed > 0) { this->count = (FLASH_FRAME_COUNT * 2); }
+			if (justPressed == 0) { 
 
-			if (this->count < (FLASH_FRAME_COUNT * 2)) {
-				
-				this->count++;
+				for (uint8_t x = 0; x < NUMBER_OF_FIREWORKS; x++) {
+
+					this->fireWorks_count[x]++;
+
+					if (this->fireWorks_count[x] >= 11) {
+						this->fireWorks_count[x] = 0;
+						this->fireWorks_X[x] = random(0, 128);	
+						this->fireWorks_Y[x] = random(0, 64);	
+					}
+
+				}
 
 			}
 			else {
@@ -371,7 +391,7 @@ void PlayGameState::render(StateMachine & machine) {
 	
 	const bool flash = arduboy.getFrameCountHalf(FLASH_FRAME_COUNT);
 
-	if (this->viewState != ViewState::ScoreSheet) {
+	if (this->viewState != ViewState::ScoreSheet && this->viewState != ViewState::HotDice) {
 
 		arduboy.drawHorizontalDottedLine(60, 64, 0);
 		arduboy.drawVerticalDottedLine(0, 64, 62);
@@ -483,7 +503,7 @@ void PlayGameState::render(StateMachine & machine) {
 		arduboy.drawCompressed(67, 0, Images::Border_With_Shadow, WHITE);
 		arduboy.drawCompressed(68, 1, Images::Icons[gameStats.players[this->currentPlayer]->getIcon()], WHITE);
 
-		font4x6.setCursor(89, -1);//sjh 84
+		font4x6.setCursor(89, -1);
 		BaseState::printName4x6(machine, this->currentPlayer);
 
 		arduboy.drawHorizontalDottedLine(89, 128, 8);
@@ -552,20 +572,20 @@ void PlayGameState::render(StateMachine & machine) {
 		}
 
 
-		// Hot Dice?
+		// // Hot Dice?
 
-		else if (this->viewState == ViewState::HotDice) {
+		// else if (this->viewState == ViewState::HotDice) {
 
-			// arduboy.drawCompressed(7, 11, Images::HotDice_Mask, BLACK);
-			// arduboy.drawCompressed(7, 11, Images::HotDice, WHITE);
+		// 	arduboy.drawCompressed(7, 11, Images::HotDice_Mask, BLACK);
+		// 	arduboy.drawCompressed(7, 11, Images::HotDice, WHITE);
 
-			arduboy.setRGBled(GREEN_LED, (flash ? 32 : 0));
+		// 	arduboy.setRGBled(GREEN_LED, (flash ? 32 : 0));
 
-		}
+		// }
 		
 		else {
 
-			arduboy.setRGBled(0, 0, 0);
+		 	arduboy.setRGBled(0, 0, 0);
 
 		}
 
@@ -589,7 +609,22 @@ void PlayGameState::render(StateMachine & machine) {
 		}
 
 	}
-	else {
+
+	else if (this->viewState == ViewState::HotDice) { // Hot Dice?
+
+		for (uint8_t x = 0; x < NUMBER_OF_FIREWORKS; x++) {
+	
+			arduboy.drawCompressed(this->fireWorks_X[x], this->fireWorks_Y[x], Images::FireWorks[this->fireWorks_count[x]], WHITE);
+
+		}
+
+		arduboy.drawCompressed(7, 15, Images::HotDice_Mask, BLACK);
+		arduboy.drawCompressed(7, 15, Images::HotDice, WHITE);
+		arduboy.setRGBled(GREEN_LED, (flash ? 32 : 0));
+
+	}
+
+	else if (this->viewState == ViewState::ScoreSheet) {
 		
 		SpritesB::drawOverwrite(12, -scroll, Images::Farkle, 0);
 		arduboy.drawCompressed(6, -scroll + 50, Images::ScoreSheet, WHITE);

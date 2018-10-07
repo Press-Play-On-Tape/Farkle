@@ -35,6 +35,10 @@ class PlayGameState : public BaseState {
 		uint16_t currentHand = 0;
 		uint16_t possibleHand = 0;
 
+    uint8_t fireWorks_X[NUMBER_OF_FIREWORKS];
+    uint8_t fireWorks_Y[NUMBER_OF_FIREWORKS];
+    uint8_t fireWorks_count[NUMBER_OF_FIREWORKS];
+
     bool retainDice[6]; 
 
   public:	
