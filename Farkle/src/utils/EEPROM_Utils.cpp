@@ -41,7 +41,6 @@ void EEPROM_Utils::initEEPROM(bool forceClear) {
       EEPROM.update(x + 30, 32);
 
       EEPROM.update(x + 39, chars1[y]);
-      Serial.println(chars1[y]);
       EEPROM.update(x + 49, chars2[y]);
       EEPROM.update(x + 59, chars3[y]);
 

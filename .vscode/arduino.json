@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:leonardo",
-    "sketch": "Farkle.ino",
+    "sketch": "Farkle/Farkle.ino",
     "output": "../build",
     "port": "/dev/cu.usbmodem1411"
 }

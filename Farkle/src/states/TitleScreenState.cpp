@@ -18,10 +18,10 @@ void TitleScreenState::activate(StateMachine & machine) {
 
 	gameStats.playerBeingEdited = 1;
 
-  EEPROM_Utils::getName(*gameStats.player1.name, EEPROM_PLAYER1);
-  EEPROM_Utils::getName(*gameStats.player2.name, EEPROM_PLAYER2);
-  EEPROM_Utils::getName(*gameStats.player3.name, EEPROM_PLAYER3);
-  EEPROM_Utils::getName(*gameStats.player4.name, EEPROM_PLAYER4);
+  EEPROM_Utils::getName(gameStats.player1.name, EEPROM_PLAYER1);
+  EEPROM_Utils::getName(gameStats.player2.name, EEPROM_PLAYER2);
+  EEPROM_Utils::getName(gameStats.player3.name, EEPROM_PLAYER3);
+  EEPROM_Utils::getName(gameStats.player4.name, EEPROM_PLAYER4);
 
 }
 
